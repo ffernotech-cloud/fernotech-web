@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
-
-
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fernotech.cf'),
+  metadataBase: new URL('https://fernotech-web.vercel.app'),
   title: "FERNOTECH — L'innovation technologique au service du futur en Centrafrique",
   description: "Leader en robotique, électronique, et systèmes intelligents à Bangui. Découvrez nos solutions technologiques à impact social et environnemental.",
   keywords: ["robotique", "électronique", "systèmes embarqués", "IA", "développement logiciel", "Bangui", "innovation", "Centrafrique", "FERNOTECH", "recyclage plastique"],
@@ -24,11 +23,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FERNOTECH — Innovation Technologique en RCA",
     description: "Nous bâtissons les solutions robotiques et électroniques de demain pour l'Afrique.",
-    url: "https://fernotech.cf",
+    url: "https://fernotech-web.vercel.app",
     siteName: "FERNOTECH",
     images: [
       {
-        url: "/og-image.jpg", // Make sure this exists in public or use a placeholder
+        url: "/logo.jpg", 
         width: 1200,
         height: 630,
         alt: "FERNOTECH Innovation",
@@ -41,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "FERNOTECH — Innovation Technologique",
     description: "Innover, Créer et Transformer en Centrafrique.",
-    images: ["/og-image.jpg"],
+    images: ["/logo.jpg"],
   },
 };
 
@@ -57,7 +56,9 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-background text-foreground selection:bg-brand-yellow selection:text-black flex flex-col">
         <LanguageProvider>
-          {children}
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
         </LanguageProvider>
       </body>
     </html>
