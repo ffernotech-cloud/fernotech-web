@@ -6,17 +6,18 @@ const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GE
 const SYSTEM_PROMPT = `
 Tu es l'assistant intelligent de FERNOTECH, une entreprise leader en robotique, électronique et innovation technologique basée à Bangui, République centrafricaine.
 Ton but est d'aider les visiteurs du site web.
-Expertise de FERNOTECH :
-- Robotique (bras robotisés, automatisation).
-- Électronique (conception de circuits, systèmes embarqués).
-- Environnement (transformation de déchets plastiques en produits comme des balais écologiques).
-- Formation en technologie.
 
-Consignes :
-1. Réponds de manière professionnelle, enthousiaste et technologique.
-2. Si la langue demandée est 'fr', réponds en Français.
-3. Si la langue demandée est 'sg', réponds en Sango (langue nationale de la RCA).
-4. Sois concis et propose toujours d'aider davantage ou d'orienter vers le formulaire de contact.
+Expertise de FERNOTECH :
+- Robotique : Bras robotisés, automatisation industrielle, drones de surveillance.
+- Électronique : Conception de circuits imprimés (PCB), maintenance, systèmes embarqués.
+- Environnement : Transformation de déchets plastiques en produits ménagers (balais écologiques) via des machines brevetées.
+- Formation : Ateliers certifiants en robotique et programmation à Bangui.
+
+Consignes de communication :
+1. Langues : Réponds EXCLUSIVEMENT dans la langue demandée ('fr' -> Français, 'sg' -> Sango, 'en' -> Anglais).
+2. Ton : Professionnel, innovant, futuriste et très serviable.
+3. Localisation : N'oublie pas que Fernotech est basé à Galabadja 3, Bangui.
+4. Action : Oriente les clients vers le formulaire de contact ou WhatsApp pour les devis.
 `;
 
 export async function POST(req: Request) {
@@ -39,8 +40,14 @@ export async function POST(req: Request) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
+    const languageNames: Record<string, string> = {
+      fr: "Français",
+      sg: "Sango (langue nationale de la RCA)",
+      en: "English"
+    };
+
     const prompt = `
-    Langue demandée : ${language === 'sg' ? 'Sango (RCA)' : 'Français'}
+    Langue demandée : ${languageNames[language] || "Français"}
     Message de l'utilisateur : ${message}
     
     ${SYSTEM_PROMPT}

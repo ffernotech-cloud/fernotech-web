@@ -85,52 +85,60 @@ export const Chatbot = () => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="mb-4 w-80 md:w-96 glass rounded-3xl overflow-hidden border-brand-blue/30 shadow-[0_20px_50px_rgba(0,82,180,0.3)] flex flex-col h-[500px]"
+            className="mb-4 w-80 md:w-96 glass light:bg-white/90 light:backdrop-blur-2xl rounded-[2rem] overflow-hidden border-brand-blue/30 shadow-[0_20px_50px_rgba(0,82,180,0.3)] flex flex-col h-[550px]"
           >
             {/* Header */}
-            <div className="p-4 bg-gradient-to-r from-brand-blue/20 to-brand-green/20 border-b border-white/10 flex items-center justify-between">
+            <div className="p-5 bg-gradient-to-r from-brand-blue/20 via-brand-green/10 to-brand-yellow/10 border-b border-white/10 light:border-black/5 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-brand-blue flex items-center justify-center relative">
-                  <Bot className="w-6 h-6 text-white" />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-brand-green border-2 border-black rounded-full" />
+                <div className="w-12 h-12 rounded-2xl bg-brand-blue flex items-center justify-center relative group-hover:rotate-6 transition-transform">
+                  <Bot className="w-7 h-7 text-white" />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-brand-green border-2 border-black light:border-white rounded-full" />
                 </div>
                 <div>
-                  <p className="font-bold text-sm">FERNO-BOT</p>
-                  <p className="text-[10px] text-brand-green animate-pulse">{t("bot_status")}</p>
+                  <p className="font-black text-sm tracking-tight">FERNO-BOT</p>
+                  <p className="text-[10px] text-brand-green font-bold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse" />
+                    {t("bot_status")}
+                  </p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/40 hover:text-white">
+              <button onClick={() => setIsOpen(false)} className="w-8 h-8 rounded-full flex items-center justify-center text-white/40 light:text-black/40 hover:bg-white/10 light:hover:bg-black/5 transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Messages Area */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-hide">
               {messages.map((msg) => (
-                <div key={msg.id} className={cn("flex", msg.sender === "user" ? "justify-end" : "justify-start")}>
+                <motion.div 
+                  initial={{ opacity: 0, x: msg.sender === "user" ? 10 : -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  key={msg.id} 
+                  className={cn("flex", msg.sender === "user" ? "justify-end" : "justify-start")}
+                >
                   <div className={cn(
-                    "max-w-[80%] px-4 py-2 rounded-2xl text-sm",
+                    "max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed",
                     msg.sender === "user" 
-                      ? "bg-brand-blue text-white rounded-tr-none" 
-                      : "bg-white/10 text-white/90 border border-white/5 rounded-tl-none"
+                      ? "bg-brand-blue text-white rounded-tr-none shadow-lg shadow-brand-blue/20" 
+                      : "bg-white/10 light:bg-black/5 text-white/90 light:text-black/80 border border-white/5 light:border-black/5 rounded-tl-none"
                   )}>
                     {msg.text}
                   </div>
-                </div>
+                </motion.div>
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white/10 px-4 py-2 rounded-2xl flex gap-1">
-                    <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce" />
-                    <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                    <span className="w-1.5 h-1.5 bg-white/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <div className="bg-white/10 light:bg-black/5 px-4 py-3 rounded-2xl flex gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-brand-blue rounded-full animate-bounce" />
+                    <span className="w-1.5 h-1.5 bg-brand-blue rounded-full animate-bounce [animation-delay:0.2s]" />
+                    <span className="w-1.5 h-1.5 bg-brand-blue rounded-full animate-bounce [animation-delay:0.4s]" />
                   </div>
                 </div>
               )}
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-white/10 bg-black/40">
+            <div className="p-5 border-t border-white/10 light:border-black/5 bg-black/40 light:bg-white/40">
               <div className="relative">
                 <input
                   type="text"
@@ -138,17 +146,18 @@ export const Chatbot = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSend()}
                   placeholder={t("bot_placeholder")}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-12 focus:outline-none focus:border-brand-blue transition-all text-sm"
+                  className="w-full bg-white/5 light:bg-black/5 border border-white/10 light:border-black/10 rounded-2xl py-4 pl-5 pr-14 focus:outline-none focus:border-brand-blue transition-all text-sm light:text-black"
                 />
                 <button 
                   onClick={handleSend}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-brand-blue hover:text-white transition-colors"
+                  disabled={!inputValue.trim()}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-brand-blue text-white flex items-center justify-center hover:bg-brand-blue/80 transition-all disabled:opacity-50 disabled:grayscale"
                 >
                   <Send className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-[10px] text-center text-white/20 mt-2 flex items-center justify-center gap-1">
-                <Sparkles className="w-3 h-3" /> {t("bot_powered")}
+              <p className="text-[9px] text-center text-white/20 light:text-black/20 mt-3 flex items-center justify-center gap-1 font-bold uppercase tracking-tighter">
+                <Sparkles className="w-3 h-3 text-brand-yellow" /> {t("bot_powered")}
               </p>
             </div>
           </motion.div>
