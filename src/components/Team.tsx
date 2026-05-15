@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Star } from "lucide-react";
+import { Globe, Zap, Cpu, Star } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const teamMembers = [
@@ -76,18 +76,18 @@ export const Team = () => {
                 {/* Social Overlay */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                   {member.social.github && (
-                    <a href={member.social.github} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-                      <Github className="w-5 h-5" />
+                    <a href={member.social.github} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand-blue transition-all">
+                      <Cpu className="w-5 h-5" />
                     </a>
                   )}
                   {member.social.linkedin && (
-                    <a href={member.social.linkedin} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-[#0077b5] transition-all">
-                      <Linkedin className="w-5 h-5" />
+                    <a href={member.social.linkedin} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand-yellow hover:text-black transition-all">
+                      <Globe className="w-5 h-5" />
                     </a>
                   )}
                   {member.social.twitter && (
-                    <a href={member.social.twitter} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-black transition-all">
-                      <Twitter className="w-5 h-5" />
+                    <a href={member.social.twitter} className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-brand-green transition-all">
+                      <Zap className="w-5 h-5" />
                     </a>
                   )}
                 </div>
