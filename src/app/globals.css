@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050506;
+  --foreground: #ffffff;
+  
+  --brand-red: #E70012;
+  --brand-yellow: #FFCD00;
+  --brand-green: #009639;
+  --brand-blue: #0052B4;
+  
+  --neon-red: 0 0 10px rgba(231, 0, 18, 0.5), 0 0 20px rgba(231, 0, 18, 0.3);
+  --neon-yellow: 0 0 10px rgba(255, 205, 0, 0.5), 0 0 20px rgba(255, 205, 0, 0.3);
+  --neon-green: 0 0 10px rgba(0, 150, 57, 0.5), 0 0 20px rgba(0, 150, 57, 0.3);
+  --neon-blue: 0 0 10px rgba(0, 82, 180, 0.5), 0 0 20px rgba(0, 82, 180, 0.3);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-brand-red: var(--brand-red);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-green: var(--brand-green);
+  --color-brand-blue: var(--brand-blue);
+  
+  --shadow-neon-red: var(--neon-red);
+  --shadow-neon-yellow: var(--neon-yellow);
+  --shadow-neon-green: var(--neon-green);
+  --shadow-neon-blue: var(--neon-blue);
+  
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: radial-gradient(circle at 50% -20%, #1a1a24 0%, var(--background) 100%);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+  
+  .glow-red {
+    box-shadow: var(--neon-red);
+  }
+  
+  .glow-yellow {
+    box-shadow: var(--neon-yellow);
+  }
+  
+  .glow-green {
+    box-shadow: var(--neon-green);
+  }
+  
+  .glow-blue {
+    box-shadow: var(--neon-blue);
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+

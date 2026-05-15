@@ -1,0 +1,87 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "titleKey": "project_1_title",
+      "categoryKey": "project_1_category",
+      "image": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop",
+      "descKey": "project_1_desc",
+      "detailsKeys": [
+        "project_1_detail_1",
+        "project_1_detail_2"
+      ],
+      "tech": [
+        "Mécatronique",
+        "Recyclage",
+        "Fabrication Locale"
+      ]
+    },
+    {
+      "id": "3",
+      "titleKey": "project_3_title",
+      "categoryKey": "project_3_category",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop",
+      "descKey": "project_3_desc",
+      "detailsKeys": [
+        "project_3_detail_1",
+        "project_3_detail_2"
+      ],
+      "tech": [
+        "ESP32",
+        "LoRa",
+        "Next.js Dashboard"
+      ]
+    },
+    {
+      "id": "4",
+      "titleKey": "project_4_title",
+      "categoryKey": "project_4_category",
+      "image": "https://images.unsplash.com/photo-1558449028-b53a39d100fc?q=80&w=800&auto=format&fit=crop",
+      "descKey": "project_4_desc",
+      "detailsKeys": [
+        "project_4_detail_1",
+        "project_4_detail_2"
+      ],
+      "tech": [
+        "Solaire",
+        "IoT",
+        "Mobile App"
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "titleKey": "post_1_title",
+      "excerptKey": "post_1_excerpt",
+      "date": "12 Mai 2024",
+      "author": "Ing. Fernotech",
+      "category": "Innovation",
+      "image": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "2",
+      "titleKey": "post_2_title",
+      "excerptKey": "post_2_excerpt",
+      "date": "05 Mai 2024",
+      "author": "Tech Team",
+      "category": "AgriTech",
+      "image": "https://images.unsplash.com/photo-1558449028-b53a39d100fc?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      "id": "3",
+      "titleKey": "post_3_title",
+      "excerptKey": "post_3_excerpt",
+      "date": "28 Avril 2024",
+      "author": "Formation",
+      "category": "Éducation",
+      "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop"
+    }
+  ],
+  "settings": {
+    "siteName": "FERNOTECH",
+    "contactEmail": "contact@fernando.tech",
+    "contactPhone": "+236 72 93 47 90",
+    "address": "Galabadja 3, Bangui, RCA"
+  }
+}
