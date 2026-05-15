@@ -137,6 +137,15 @@ const translations: Translations = {
   test_text_2: { fr: "Grâce à leur système IoT, j'ai réduit ma consommation d'eau de 40% sur ma plantation.", sg: "Na machine tî e, mbi kiri na ngû tî yaka tî mbi na sêse sîon.", en: "Thanks to their IoT system, I reduced my water consumption by 40% on my plantation." },
   test_role_3: { fr: "Étudiant en Ingénierie", sg: "Wamandango tènë tî machine", en: "Engineering Student" },
   test_text_3: { fr: "Les formations de Fernotech sont une opportunité unique pour la jeunesse centrafricaine de briller dans la tech.", sg: "Wango tî Fernotech amû mabôkô na amaseka tî e tî Béafrîka.", en: "Fernotech's training is a unique opportunity for Central African youth to shine in tech." },
+  team_badge: { fr: "Force d'Élite", sg: "Wandara tî e", en: "Elite Force" },
+  team_title: { fr: "Notre Équipe", sg: "Wandara tî Fernotech", en: "Our Team" },
+  team_subtitle: { fr: "Des experts passionnés dévoués à transformer l'avenir technologique de l'Afrique.", sg: "A-expert tî e so amû ngangô tî gbiângö Béafrîka.", en: "Passionate experts dedicated to transforming Africa's technological future." },
+  team_founder_role: { fr: "Fondateur & CEO", sg: "Wasara-kua & Fondateur", en: "Founder & CEO" },
+  team_founder_bio: { fr: "Visionnaire tech passionné par la robotique et l'impact social en RCA.", sg: "Wandara so abâ tènë tî robot na sîon tî bîakû.", en: "Tech visionary passionate about robotics and social impact in CAR." },
+  team_engineer_role: { fr: "Ingénieure en Chef", sg: "Wandara tî kâsa", en: "Lead Engineer" },
+  team_engineer_bio: { fr: "Experte en systèmes embarqués et conception de circuits complexes.", sg: "Wandara tî lekengo a-kâsa tî sîon tî bîakû.", en: "Expert in embedded systems and complex circuit design." },
+  team_manager_role: { fr: "Directeur de Projets", sg: "Wamunu tî a-kua", en: "Project Director" },
+  team_manager_bio: { fr: "Spécialiste en gestion d'innovation et déploiement technologique.", sg: "Wamunu tî bongbi akua kûê tî gâ na fin-yê.", en: "Specialist in innovation management and technological deployment." },
 };
 
 interface LanguageContextType {
