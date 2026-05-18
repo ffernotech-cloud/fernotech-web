@@ -26,7 +26,7 @@ const teamMembers = [
     id: "manager",
     name: "Emmanuel K.",
     roleKey: "team_manager_role",
-    image: "/team/emmanuel_fernand_face.png",
+    image: "/team/manager.png",
     bioKey: "team_manager_bio",
     social: { twitter: "#", linkedin: "#" }
   }
