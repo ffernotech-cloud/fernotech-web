@@ -8,7 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 const teamMembers = [
   {
     id: "founder",
-    name: "NAMFOIME-MBESSESM Fernand",
+    name: "NAMFOIME-MBESSEM Fernand",
     roleKey: "team_founder_role",
     image: "/team/fernand_cyber.png",
     bioKey: "team_founder_bio",
@@ -26,7 +26,7 @@ const teamMembers = [
     id: "manager",
     name: "Emmanuel K.",
     roleKey: "team_manager_role",
-    image: "/team/manager.png",
+    image: "/team/emmanuel_fernand_face.png",
     bioKey: "team_manager_bio",
     social: { twitter: "#", linkedin: "#" }
   }
@@ -66,13 +66,13 @@ export const Team = () => {
             >
               {/* Image Container */}
               <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden mb-8 border border-white/5 shadow-2xl transition-all duration-500 group-hover:border-brand-blue/50 group-hover:scale-[1.02]">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
+                <img
+                  src={member.image}
+                  alt={member.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050506] via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                
+
                 {/* Social Overlay */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                   {member.social.github && (
