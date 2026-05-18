@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Code, X, Zap, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
-
-import { projects } from "@/lib/data";
+import { useContent } from "@/context/ContentContext";
 
 interface Project {
   title: string;
@@ -20,6 +19,7 @@ interface Project {
 export const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { t, language } = useLanguage();
+  const { projects } = useContent();
 
   return (
     <section 

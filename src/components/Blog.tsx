@@ -4,11 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, User, ArrowRight, BookOpen } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-
-import { posts } from "@/lib/data";
+import { useContent } from "@/context/ContentContext";
 
 export const Blog = () => {
   const { t } = useLanguage();
+  const { posts } = useContent();
 
   return (
     <section 
