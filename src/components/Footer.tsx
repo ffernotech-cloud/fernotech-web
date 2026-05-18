@@ -106,6 +106,7 @@ export const Footer = () => {
                 { label: t("nav_about"), href: "/about" },
                 { label: t("nav_projects"), href: "/projets" },
                 { label: t("nav_blog"), href: "/blog" },
+                { label: t("nav_events"), href: "/evenements" },
                 { label: t("nav_contact"), href: "/contact" },
               ].map((link, i) => (
                 <li key={i}>
