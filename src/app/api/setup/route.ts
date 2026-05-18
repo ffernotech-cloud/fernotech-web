@@ -20,7 +20,7 @@ export async function GET() {
     }
 
     // Insert Settings
-    await db.collection("settings").updateOne(
+    await db.collection<any>("settings").updateOne(
       { _id: "global" },
       { $set: content.settings },
       { upsert: true }

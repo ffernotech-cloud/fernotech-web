@@ -8,7 +8,7 @@ export async function GET() {
 
     const projects = await db.collection("projects").find({}).toArray();
     const posts = await db.collection("posts").find({}).toArray();
-    const settingsDoc = await db.collection("settings").findOne({ _id: "global" });
+    const settingsDoc = await db.collection<any>("settings").findOne({ _id: "global" });
 
     // Sanitize MongoDB _id for client
     const cleanProjects = projects.map(({ _id, ...rest }) => rest);
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     }
 
     if (newData.settings) {
-      await db.collection("settings").updateOne(
+      await db.collection<any>("settings").updateOne(
         { _id: "global" },
         { $set: newData.settings },
         { upsert: true }

@@ -8,7 +8,7 @@ export async function GET() {
 
     const projects = await db.collection("projects").find({}).toArray();
     const posts = await db.collection("posts").find({}).toArray();
-    const settingsDoc = await db.collection("settings").findOne({ _id: "global" });
+    const settingsDoc = await db.collection<any>("settings").findOne({ _id: "global" });
 
     const cleanProjects = projects.map(({ _id, ...rest }) => rest);
     const cleanPosts = posts.map(({ _id, ...rest }) => rest);
