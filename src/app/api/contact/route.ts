@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     // avec 'onboarding@resend.dev' comme expéditeur.
     await resend.emails.send({
       from: 'FERNOTECH Web <onboarding@resend.dev>',
-      to: 'contact.fernotech@gmail.com',
+      to: 'ffernotech@gmail.com',
       replyTo: email,
       subject: `[Web Contact] ${subject} - de ${name}`,
       html: `
