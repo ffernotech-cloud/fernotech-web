@@ -11,6 +11,7 @@ export const Services = () => {
 
   const services = [
     {
+      id: "robotique",
       title: t("service_robotique_title"),
       desc: t("service_robotique_desc"),
       icon: Bot,
@@ -18,6 +19,7 @@ export const Services = () => {
       glow: "glow-red",
     },
     {
+      id: "electronique",
       title: t("service_electronique_title"),
       desc: t("service_electronique_desc"),
       icon: Cpu,
@@ -25,6 +27,7 @@ export const Services = () => {
       glow: "glow-yellow",
     },
     {
+      id: "logiciel",
       title: t("service_logiciel_title"),
       desc: t("service_logiciel_desc"),
       icon: Code,
@@ -32,6 +35,7 @@ export const Services = () => {
       glow: "glow-blue",
     },
     {
+      id: "embarque",
       title: t("service_embarque_title"),
       desc: t("service_embarque_desc"),
       icon: Smartphone,
@@ -39,6 +43,7 @@ export const Services = () => {
       glow: "glow-green",
     },
     {
+      id: "formation",
       title: t("service_formation_title"),
       desc: t("service_formation_desc"),
       icon: GraduationCap,
@@ -46,6 +51,7 @@ export const Services = () => {
       glow: "shadow-white/20",
     },
     {
+      id: "conseil",
       title: t("service_conseil_title"),
       desc: t("service_conseil_desc"),
       icon: Briefcase,
@@ -53,6 +59,7 @@ export const Services = () => {
       glow: "glow-blue",
     },
     {
+      id: "commerce",
       title: t("service_commerce_title"),
       desc: t("service_commerce_desc"),
       icon: ShoppingBag,
@@ -93,6 +100,8 @@ export const Services = () => {
           {services.map((service, idx) => (
             <motion.div
               key={service.title}
+              id={service.id}
+              style={{ scrollMarginTop: "120px" }}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
