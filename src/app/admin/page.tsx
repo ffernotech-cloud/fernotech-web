@@ -18,10 +18,11 @@ import {
   Trash2,
   Edit,
   Loader2,
-  Inbox
+  Inbox,
+  Calendar
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Project, Post } from "@/lib/data";
+import { Project, Post, Event } from "@/lib/data";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,6 +32,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [projects, setProjects] = useState<Project[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
 
   const handleLogin = (e: React.FormEvent) => {
@@ -49,6 +51,7 @@ export default function AdminPage() {
   };
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [settings, setSettings] = useState<any>({
     siteName: "",
@@ -65,6 +68,11 @@ export default function AdminPage() {
   const filteredPosts = posts.filter(p => 
     p.titleKey.toLowerCase().includes(searchQuery.toLowerCase()) || 
     p.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredEvents = events.filter(e => 
+    e.fr.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    e.tag.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const [showNotifications, setShowNotifications] = useState(false);
@@ -93,6 +101,7 @@ export default function AdminPage() {
       const data = await res.json();
       setProjects(data.projects || []);
       setPosts(data.posts || []);
+      setEvents(data.events || []);
       setSettings(data.settings || {
         siteName: "FERNOTECH",
         contactEmail: "",
@@ -106,7 +115,7 @@ export default function AdminPage() {
     }
   };
 
-  const saveContent = async (newProjects: Project[], newPosts: Post[], newSettings?: any) => {
+  const saveContent = async (newProjects = projects, newPosts = posts, newEvents = events, newSettings = settings) => {
     try {
       await fetch("/api/admin/content", {
         method: "POST",
@@ -114,7 +123,8 @@ export default function AdminPage() {
         body: JSON.stringify({ 
           projects: newProjects, 
           posts: newPosts, 
-          settings: newSettings || settings 
+          events: newEvents,
+          settings: newSettings 
         }),
       });
       fetchData();
@@ -125,7 +135,7 @@ export default function AdminPage() {
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
-    saveContent(projects, posts, settings);
+    saveContent(projects, posts, events, settings);
     alert("Paramètres enregistrés !");
   };
 
@@ -141,7 +151,7 @@ export default function AdminPage() {
     }
 
     setProjects(newProjects);
-    saveContent(newProjects, posts);
+    saveContent(newProjects, posts, events);
     setEditingProject(null);
   };
 
@@ -157,14 +167,30 @@ export default function AdminPage() {
     }
 
     setPosts(newPosts);
-    saveContent(projects, newPosts);
+    saveContent(projects, newPosts, events);
     setEditingPost(null);
+  };
+
+  const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingEvent) return;
+
+    let newEvents;
+    if (events.find(ev => ev.id === editingEvent.id)) {
+      newEvents = events.map(ev => ev.id === editingEvent.id ? editingEvent : ev);
+    } else {
+      newEvents = [...events, editingEvent];
+    }
+
+    setEvents(newEvents);
+    saveContent(projects, posts, newEvents);
+    setEditingEvent(null);
   };
 
   const stats = [
     { label: "Projets Actifs", value: projects.length.toString(), icon: Package, color: "text-brand-blue" },
-    { label: "Visites Mensuelles", value: "1.2k", icon: TrendingUp, color: "text-brand-green" },
-    { label: "Nouveaux Contacts", value: "8", icon: MessageSquare, color: "text-brand-yellow" },
+    { label: "Événements", value: events.length.toString(), icon: Calendar, color: "text-brand-yellow" },
+    { label: "Nouveaux Contacts", value: "8", icon: MessageSquare, color: "text-brand-green" },
     { label: "Articles Blog", value: posts.length.toString(), icon: FileText, color: "text-white" },
   ];
 
@@ -241,12 +267,13 @@ export default function AdminPage() {
             { id: "dashboard", label: "Tableau de bord", icon: LayoutDashboard },
             { id: "projects", label: "Mes Projets", icon: Package },
             { id: "blog", label: "Blog", icon: FileText },
+            { id: "events", label: "Événements", icon: Calendar },
             { id: "messages", label: "Messages", icon: MessageSquare },
             { id: "settings", label: "Paramètres", icon: Settings },
           ].map((item) => (
             <button
               key={item.id}
-              onClick={() => { setActiveTab(item.id); setEditingProject(null); setEditingPost(null); }}
+              onClick={() => { setActiveTab(item.id); setEditingProject(null); setEditingPost(null); setEditingEvent(null); }}
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
                 activeTab === item.id 
@@ -687,6 +714,362 @@ export default function AdminPage() {
                                 const newPosts = posts.filter(p => p.id !== post.id);
                                 setPosts(newPosts);
                                 saveContent(projects, newPosts);
+                              }
+                            }}
+                            className="p-3 bg-brand-red rounded-xl text-white shadow-xl hover:scale-110 transition-transform"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {activeTab === "events" && (
+          <div className="space-y-8">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">Gestion des Événements</h2>
+              {!editingEvent && (
+                <button 
+                  onClick={() => setEditingEvent({ 
+                    id: Date.now().toString(), 
+                    type: "upcoming", 
+                    tag: "Workshop", 
+                    time: "09:00 - 17:00", 
+                    color: "brand-blue",
+                    fr: { title: "", desc: "", date: "", location: "", capacity: "" },
+                    sg: { title: "", desc: "", date: "", location: "", capacity: "" },
+                    en: { title: "", desc: "", date: "", location: "", capacity: "" }
+                  })}
+                  className="flex items-center gap-2 px-6 py-3 bg-brand-blue text-white rounded-xl text-sm font-bold shadow-[0_0_20px_rgba(0,82,180,0.3)] hover:scale-105 transition-all"
+                >
+                  <Plus className="w-4 h-4" /> Ajouter un Événement
+                </button>
+              )}
+            </div>
+
+            <AnimatePresence mode="wait">
+              {editingEvent ? (
+                <motion.form 
+                  key="event-form"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  onSubmit={handleSaveEvent}
+                  className="glass p-8 rounded-3xl border-white/5 space-y-8"
+                >
+                  {/* General settings */}
+                  <div>
+                    <h3 className="text-xs font-black text-brand-yellow uppercase tracking-widest mb-4">// Infos Générales</h3>
+                    <div className="grid md:grid-cols-4 gap-6">
+                      <div>
+                        <label className="block text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Tag de catégorie</label>
+                        <input 
+                          required
+                          value={editingEvent.tag}
+                          onChange={e => setEditingEvent({...editingEvent, tag: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-brand-blue outline-none transition-colors"
+                          placeholder="ex: Formation, Conférence"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Horaires (Heures)</label>
+                        <input 
+                          required
+                          value={editingEvent.time}
+                          onChange={e => setEditingEvent({...editingEvent, time: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-brand-blue outline-none transition-colors"
+                          placeholder="ex: 09:00 - 17:00"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Statut de l'événement</label>
+                        <select 
+                          value={editingEvent.type}
+                          onChange={e => setEditingEvent({...editingEvent, type: e.target.value as "upcoming" | "past"})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-brand-blue outline-none transition-colors text-white"
+                        >
+                          <option value="upcoming" className="bg-[#050505] text-white">À Venir</option>
+                          <option value="past" className="bg-[#050505] text-white">Passé</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-black text-white/40 uppercase tracking-widest mb-2">Couleur de thème</label>
+                        <select 
+                          value={editingEvent.color}
+                          onChange={e => setEditingEvent({...editingEvent, color: e.target.value})}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-brand-blue outline-none transition-colors text-white"
+                        >
+                          <option value="brand-blue" className="bg-[#050505] text-brand-blue font-bold">Bleu (brand-blue)</option>
+                          <option value="brand-yellow" className="bg-[#050505] text-brand-yellow font-bold">Jaune (brand-yellow)</option>
+                          <option value="brand-green" className="bg-[#050505] text-brand-green font-bold">Vert (brand-green)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr className="border-white/5" />
+
+                  {/* Languages tabs grid */}
+                  <div className="grid lg:grid-cols-3 gap-8">
+                    {/* French Form */}
+                    <div className="glass p-6 rounded-2xl border-white/5 space-y-4">
+                      <h4 className="text-xs font-black text-brand-blue uppercase tracking-widest mb-2">🇫🇷 Français (FR)</h4>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Titre</label>
+                        <input 
+                          required
+                          value={editingEvent.fr.title}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            fr: { ...editingEvent.fr, title: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Date complète</label>
+                        <input 
+                          required
+                          value={editingEvent.fr.date}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            fr: { ...editingEvent.fr, date: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                          placeholder="ex: 15 - 16 Juin 2026"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Lieu</label>
+                        <input 
+                          required
+                          value={editingEvent.fr.location}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            fr: { ...editingEvent.fr, location: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                          placeholder="ex: Lab Fernotech, Bangui"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Capacité / Accès</label>
+                        <input 
+                          required
+                          value={editingEvent.fr.capacity}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            fr: { ...editingEvent.fr, capacity: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                          placeholder="ex: 15 participants"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Description</label>
+                        <textarea 
+                          required
+                          rows={3}
+                          value={editingEvent.fr.desc}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            fr: { ...editingEvent.fr, desc: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Sango Form */}
+                    <div className="glass p-6 rounded-2xl border-white/5 space-y-4">
+                      <h4 className="text-xs font-black text-brand-yellow uppercase tracking-widest mb-2">🇨🇫 Sango (SG)</h4>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Titre (Titre ti kua)</label>
+                        <input 
+                          required
+                          value={editingEvent.sg.title}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            sg: { ...editingEvent.sg, title: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Date complète (Lâ nî)</label>
+                        <input 
+                          required
+                          value={editingEvent.sg.date}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            sg: { ...editingEvent.sg, date: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Lieu (Ndö nî)</label>
+                        <input 
+                          required
+                          value={editingEvent.sg.location}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            sg: { ...editingEvent.sg, location: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Capacité (Place)</label>
+                        <input 
+                          required
+                          value={editingEvent.sg.capacity}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            sg: { ...editingEvent.sg, capacity: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Description (Téné tî kua)</label>
+                        <textarea 
+                          required
+                          rows={3}
+                          value={editingEvent.sg.desc}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            sg: { ...editingEvent.sg, desc: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* English Form */}
+                    <div className="glass p-6 rounded-2xl border-white/5 space-y-4">
+                      <h4 className="text-xs font-black text-white/60 uppercase tracking-widest mb-2">🇬🇧 English (EN)</h4>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Title</label>
+                        <input 
+                          required
+                          value={editingEvent.en.title}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            en: { ...editingEvent.en, title: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Date</label>
+                        <input 
+                          required
+                          value={editingEvent.en.date}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            en: { ...editingEvent.en, date: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Location</label>
+                        <input 
+                          required
+                          value={editingEvent.en.location}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            en: { ...editingEvent.en, location: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Capacity</label>
+                        <input 
+                          required
+                          value={editingEvent.en.capacity}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            en: { ...editingEvent.en, capacity: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-black text-white/40 uppercase tracking-widest mb-1.5">Description</label>
+                        <textarea 
+                          required
+                          rows={3}
+                          value={editingEvent.en.desc}
+                          onChange={e => setEditingEvent({
+                            ...editingEvent,
+                            en: { ...editingEvent.en, desc: e.target.value }
+                          })}
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs focus:border-brand-blue outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 pt-4">
+                    <button type="submit" className="flex-1 py-4 bg-brand-green text-black font-black rounded-2xl flex items-center justify-center gap-2 hover:brightness-110 transition-all shadow-[0_0_20px_rgba(0,180,100,0.2)]">
+                      <Save className="w-4 h-4" /> Enregistrer l'événement
+                    </button>
+                    <button type="button" onClick={() => setEditingEvent(null)} className="flex-1 py-4 bg-white/5 text-white font-bold rounded-2xl hover:bg-white/10 transition-all">
+                      Annuler
+                    </button>
+                  </div>
+                </motion.form>
+              ) : (
+                <motion.div 
+                  key="event-grid"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {filteredEvents.length === 0 ? (
+                    <div className="col-span-full py-20 glass rounded-3xl border-white/5 flex flex-col items-center justify-center text-white/20">
+                      <Inbox className="w-16 h-16 mb-4 opacity-50" />
+                      <p className="font-black uppercase tracking-widest">Aucun événement trouvé pour "{searchQuery}"</p>
+                    </div>
+                  ) : (
+                    filteredEvents.map(ev => (
+                      <div key={ev.id} className="glass p-6 rounded-3xl border-white/5 group relative overflow-hidden flex flex-col justify-between">
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-wider text-white">
+                              {ev.tag}
+                            </span>
+                            <span className={`text-[9px] font-black uppercase tracking-wider ${
+                              ev.type === "upcoming" ? "text-brand-yellow" : "text-white/30"
+                            }`}>
+                              {ev.type === "upcoming" ? "● À VENIR" : "✓ PASSÉ"}
+                            </span>
+                          </div>
+                          <h3 className="font-black text-lg group-hover:text-brand-blue transition-colors leading-tight">{ev.fr.title}</h3>
+                          <p className="text-xs text-white/40 line-clamp-3">{ev.fr.desc}</p>
+                          <hr className="border-white/5" />
+                          <p className="text-[10px] text-white/50 font-bold uppercase tracking-wider">📅 {ev.fr.date} • 🕒 {ev.time}</p>
+                        </div>
+
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all absolute top-8 right-8">
+                          <button onClick={() => setEditingEvent(ev)} className="p-3 bg-brand-blue rounded-xl text-white shadow-xl hover:scale-110 transition-transform">
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button 
+                            onClick={() => {
+                              if (confirm("Supprimer cet événement ?")) {
+                                const newEvents = events.filter(e => e.id !== ev.id);
+                                setEvents(newEvents);
+                                saveContent(projects, posts, newEvents);
                               }
                             }}
                             className="p-3 bg-brand-red rounded-xl text-white shadow-xl hover:scale-110 transition-transform"

@@ -22,3 +22,23 @@ export interface Post {
 
 export const projects: Project[] = content.projects;
 export const posts: Post[] = content.posts;
+
+export interface EventDetails {
+  title: string;
+  desc: string;
+  date: string;
+  location: string;
+  capacity: string;
+}
+
+export interface Event {
+  id: string;
+  type: "upcoming" | "past";
+  tag: string;
+  time: string;
+  color: string;
+  fr: EventDetails;
+  en: EventDetails;
+  sg: EventDetails;
+}
+

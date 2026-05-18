@@ -1,11 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { Project, Post } from "@/lib/data"; // Import interfaces
+import { Project, Post, Event } from "@/lib/data"; // Import interfaces
 
 interface ContentContextType {
   projects: Project[];
   posts: Post[];
+  events: Event[];
   settings: any;
   loading: boolean;
 }
@@ -15,6 +16,7 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [settings, setSettings] = useState<any>({});
   const [loading, setLoading] = useState(true);
 
@@ -26,6 +28,7 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
         const data = await res.json();
         setProjects(data.projects || []);
         setPosts(data.posts || []);
+        setEvents(data.events || []);
         setSettings(data.settings || {});
       } catch (error) {
         console.error("Content fetch error:", error);
@@ -38,7 +41,7 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <ContentContext.Provider value={{ projects, posts, settings, loading }}>
+    <ContentContext.Provider value={{ projects, posts, events, settings, loading }}>
       {children}
     </ContentContext.Provider>
   );

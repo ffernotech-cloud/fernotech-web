@@ -8,16 +8,19 @@ export async function GET() {
 
     const projects = await db.collection("projects").find({}).toArray();
     const posts = await db.collection("posts").find({}).toArray();
+    const events = await db.collection("events").find({}).toArray();
     const settingsDoc = await db.collection<any>("settings").findOne({ _id: "global" });
 
     // Sanitize MongoDB _id for client
     const cleanProjects = projects.map(({ _id, ...rest }) => rest);
     const cleanPosts = posts.map(({ _id, ...rest }) => rest);
+    const cleanEvents = events.map(({ _id, ...rest }) => rest);
     const cleanSettings = settingsDoc ? (() => { const { _id, ...rest } = settingsDoc; return rest; })() : null;
 
     return NextResponse.json({
       projects: cleanProjects,
       posts: cleanPosts,
+      events: cleanEvents,
       settings: cleanSettings || {
         siteName: "FERNOTECH",
         contactEmail: "contact@fernando.tech",
@@ -50,6 +53,13 @@ export async function POST(req: Request) {
       await db.collection("posts").deleteMany({});
       if (newData.posts.length > 0) {
         await db.collection("posts").insertMany(newData.posts);
+      }
+    }
+
+    if (newData.events) {
+      await db.collection("events").deleteMany({});
+      if (newData.events.length > 0) {
+        await db.collection("events").insertMany(newData.events);
       }
     }
 
