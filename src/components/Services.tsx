@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Bot, Cpu, Code, Smartphone, GraduationCap, Briefcase, ShoppingBag, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -98,35 +99,38 @@ export const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {services.map((service, idx) => (
-            <motion.div
-              key={service.title}
-              id={service.id}
-              style={{ scrollMarginTop: "120px" }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              whileHover={{ y: -10 }}
-              className={cn(
-                "glass p-8 rounded-3xl relative group cursor-pointer border-transparent hover:border-white/20 transition-all",
-                service.glow && `hover:${service.glow}`
-              )}
-            >
-              <div className={cn(
-                "w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all group-hover:scale-110",
-                `bg-${service.color}/10 text-${service.color}`
-              )}>
-                <service.icon className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed">
-                {service.desc}
-              </p>
-              
-              <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Zap className={cn("w-4 h-4", `text-${service.color}`)} />
-              </div>
-            </motion.div>
+            <Link key={service.title} href={`/services/${service.id}`} className="block h-full">
+              <motion.div
+                id={service.id}
+                style={{ scrollMarginTop: "120px" }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ y: -10 }}
+                className={cn(
+                  "glass p-8 rounded-3xl relative group cursor-pointer border-transparent hover:border-white/20 transition-all h-full flex flex-col justify-between",
+                  service.glow && `hover:${service.glow}`
+                )}
+              >
+                <div>
+                  <div className={cn(
+                    "w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all group-hover:scale-110",
+                    `bg-${service.color}/10 text-${service.color}`
+                  )}>
+                    <service.icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">
+                    {service.desc}
+                  </p>
+                </div>
+                
+                <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Zap className={cn("w-4 h-4", `text-${service.color}`)} />
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

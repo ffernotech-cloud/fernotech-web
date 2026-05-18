@@ -20,11 +20,11 @@ export const Navbar = () => {
       name: t("nav_services"), 
       href: "/services",
       dropdown: [
-        { name: t("service_robotique_title"), href: "/services#robotique" },
-        { name: t("service_electronique_title"), href: "/services#electronique" },
-        { name: t("service_logiciel_title"), href: "/services#logiciel" },
-        { name: t("service_embarque_title"), href: "/services#embarque" },
-        { name: t("service_formation_title"), href: "/services#formation" }
+        { name: t("service_robotique_title"), href: "/services/robotique" },
+        { name: t("service_electronique_title"), href: "/services/electronique" },
+        { name: t("service_logiciel_title"), href: "/services/logiciel" },
+        { name: t("service_embarque_title"), href: "/services/embarque" },
+        { name: t("service_formation_title"), href: "/services/formation" }
       ]
     },
     { name: t("nav_about"), href: "/about" },
