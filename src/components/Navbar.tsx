@@ -30,7 +30,6 @@ export const Navbar = () => {
     { name: t("nav_about"), href: "/about" },
     { name: t("nav_projects"), href: "/projets" },
     { name: t("nav_blog"), href: "/blog" },
-    { name: t("nav_contact"), href: "/contact" },
   ];
 
   useEffect(() => {
