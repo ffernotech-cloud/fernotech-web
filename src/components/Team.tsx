@@ -8,9 +8,9 @@ import { useLanguage } from "@/context/LanguageContext";
 const teamMembers = [
   {
     id: "founder",
-    name: "Alexandre G.",
+    name: "NAMFOIME-MBESSESM Fernand",
     roleKey: "team_founder_role",
-    image: "/team/founder.png",
+    image: "/team/fernand_cyber.png",
     bioKey: "team_founder_bio",
     social: { linkedin: "#", twitter: "#" }
   },
