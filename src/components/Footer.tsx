@@ -163,8 +163,8 @@ export const Footer = () => {
         <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
           <p>{t("footer_rights")} {currentYear}</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Mentions Légales</a>
-            <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
+            <Link href="/mentions-legales" className="hover:text-white transition-colors">Mentions Légales</Link>
+            <Link href="/confidentialite" className="hover:text-white transition-colors">Confidentialité</Link>
           </div>
           <p className="text-brand-yellow">{t("footer_motto")}</p>
         </div>
