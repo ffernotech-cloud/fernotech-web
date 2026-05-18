@@ -19,6 +19,7 @@ const translations: Translations = {
   nav_projects: { fr: "Projets", sg: "Kua tî e", en: "Projects" },
   nav_blog: { fr: "Blog", sg: "Mbëtï", en: "Blog" },
   nav_contact: { fr: "Contact", sg: "Lôngô e", en: "Contact" },
+  nav_events: { fr: "Événements", sg: "A-kua tî e", en: "Events" },
   hero_title: { fr: "L'Avenir de la Technologie", sg: "Lekengo tî Gêrê-kua", en: "The Future of Technology" },
   hero_subtitle: { fr: "en Centrafrique", sg: "na Béafrîka", en: "in Central Africa" },
   hero_desc: { fr: "Innover, Créer et Transformer. Nous bâtissons les solutions robotiques et électroniques de demain pour l'Afrique.", sg: "E sâra kua na sîon tî lekengo fin-yê na ndö tî robot na sîon tî kâsa.", en: "Innovating, Creating and Transforming. We are building the robotic and electronic solutions of tomorrow for Africa." },
