@@ -1,14 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, MessageCircle, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageCircle, CheckCircle2, User, Tag, MessageSquare, AtSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 
 export const Contact = () => {
   const { t } = useLanguage();
-  const [status, setStatus] = React.useState<"idle" | "sending" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,112 +48,217 @@ export const Contact = () => {
   return (
     <section 
       id="contact" 
-      className="py-24 relative bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: `url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=2074&auto=format&fit=crop')` }}
+      className="py-24 relative overflow-hidden bg-[#050508]"
     >
-      <div className="absolute inset-0 bg-[#050506]/90 backdrop-blur-[2px] z-0" />
+      {/* Background Decorative Cyber Gradients */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-yellow/10 rounded-full blur-[120px] pointer-events-none" />
+      
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-12 gap-16 items-start">
+          
+          {/* Left Panel: Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-5"
           >
-            <h2 className="text-4xl font-bold mb-6">{t("contact_title")}</h2>
-            <p className="text-white/60 mb-10">
+            <span className="text-xs uppercase font-black tracking-widest text-brand-yellow mb-3 block">
+              // {t("contact_whatsapp_label")}
+            </span>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">
+              {t("contact_title")}
+            </h2>
+            <p className="text-white/60 mb-10 text-sm leading-relaxed max-w-md">
               {t("contact_desc")}
             </p>
 
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 glass p-4 rounded-2xl">
+            <div className="space-y-4 mb-10">
+              {/* WhatsApp / Phone Card */}
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-4 glass p-5 rounded-2xl border border-white/5 hover:border-brand-yellow/30 hover:shadow-[0_0_25px_rgba(255,205,0,0.1)] transition-all cursor-pointer"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow">
-                  <Phone className="w-6 h-6" />
+                  <Phone className="w-5 h-5 animate-pulse" />
                 </div>
                 <div>
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-wider">{t("contact_whatsapp_label")}</p>
-                  <p className="font-bold">+236 72 93 47 90 / 76 05 58 44</p>
+                  <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">{t("contact_whatsapp_label")}</p>
+                  <p className="font-bold text-white text-sm md:text-base">+236 72 93 47 90 / 76 05 58 44</p>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 glass p-4 rounded-2xl">
+              </motion.div>
+
+              {/* Email Card */}
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-4 glass p-5 rounded-2xl border border-white/5 hover:border-brand-blue/30 hover:shadow-[0_0_25px_rgba(0,102,204,0.1)] transition-all cursor-pointer"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue">
-                  <Mail className="w-6 h-6" />
+                  <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-wider">{t("contact_email_label")}</p>
-                  <p className="font-bold">contact.fernotech@gmail.com</p>
+                  <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">{t("contact_email_label")}</p>
+                  <p className="font-bold text-white text-sm md:text-base">contact.fernotech@gmail.com</p>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 glass p-4 rounded-2xl">
+              </motion.div>
+
+              {/* Location Card */}
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-4 glass p-5 rounded-2xl border border-white/5 hover:border-brand-green/30 hover:shadow-[0_0_25px_rgba(0,204,102,0.1)] transition-all cursor-pointer"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
-                  <MapPin className="w-6 h-6" />
+                  <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs text-white/40 uppercase font-bold tracking-wider">{t("contact_location_label")}</p>
-                  <p className="font-bold">{t("contact_location_val")}</p>
+                  <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">{t("contact_location_label")}</p>
+                  <p className="font-bold text-white text-sm md:text-base">{t("contact_location_val")}</p>
                 </div>
+              </motion.div>
+            </div>
+
+            {/* Stylized Cyber Map Placeholder (Interactive visual feel) */}
+            <div className="rounded-3xl overflow-hidden border border-white/5 glass h-48 relative group">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127278.43085521743!2d18.502939986348825!3d4.387602052194917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a7f6fa07659dfd3%3A0xe5439a3fd9df8ef5!2sBangui!5e0!3m2!1sfr!2scf!4v1715000000000!5m2!1sfr!2scf" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) opacity(0.65)" }} 
+                allowFullScreen={false} 
+                loading="lazy"
+                className="transition-opacity group-hover:opacity-85 duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent pointer-events-none" />
+              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 text-[10px] uppercase font-black text-brand-yellow tracking-widest flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-brand-green rounded-full animate-ping" />
+                HQ Bangui, RCA
               </div>
             </div>
           </motion.div>
 
+          {/* Right Panel: Premium Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass p-8 rounded-3xl border-white/5"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="lg:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative"
           >
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-white/60 mb-2">{t("form_name")}</label>
+                
+                {/* Name Input */}
+                <div className="relative">
+                  <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                    {t("form_name")}
+                  </label>
+                  <div className="relative">
+                    <span className={cn(
+                      "absolute left-4 top-3.5 transition-colors duration-300",
+                      focusedField === "name" ? "text-brand-yellow" : "text-white/20"
+                    )}>
+                      <User className="w-4 h-4" />
+                    </span>
+                    <input 
+                      required
+                      name="name"
+                      type="text" 
+                      onFocus={() => setFocusedField("name")}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                      placeholder={t("form_name_placeholder")}
+                    />
+                  </div>
+                </div>
+
+                {/* Email Input */}
+                <div className="relative">
+                  <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                    {t("form_email")}
+                  </label>
+                  <div className="relative">
+                    <span className={cn(
+                      "absolute left-4 top-3.5 transition-colors duration-300",
+                      focusedField === "email" ? "text-brand-yellow" : "text-white/20"
+                    )}>
+                      <AtSign className="w-4 h-4" />
+                    </span>
+                    <input 
+                      required
+                      name="email"
+                      type="email" 
+                      onFocus={() => setFocusedField("email")}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                      placeholder={t("form_email_placeholder")}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Subject Input */}
+              <div className="relative">
+                <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                  {t("form_subject")}
+                </label>
+                <div className="relative">
+                  <span className={cn(
+                    "absolute left-4 top-3.5 transition-colors duration-300",
+                    focusedField === "subject" ? "text-brand-yellow" : "text-white/20"
+                  )}>
+                    <Tag className="w-4 h-4" />
+                  </span>
                   <input 
                     required
-                    name="name"
+                    name="subject"
                     type="text" 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-yellow transition-colors text-white"
-                    placeholder={t("form_name_placeholder")}
+                    onFocus={() => setFocusedField("subject")}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                    placeholder={t("form_subject_placeholder")}
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-white/60 mb-2">{t("form_email")}</label>
-                  <input 
+              </div>
+
+              {/* Message Textarea */}
+              <div className="relative">
+                <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                  {t("form_message")}
+                </label>
+                <div className="relative">
+                  <span className={cn(
+                    "absolute left-4 top-4 transition-colors duration-300",
+                    focusedField === "message" ? "text-brand-yellow" : "text-white/20"
+                  )}>
+                    <MessageSquare className="w-4 h-4" />
+                  </span>
+                  <textarea 
                     required
-                    name="email"
-                    type="email" 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-yellow transition-colors text-white"
-                    placeholder={t("form_email_placeholder")}
+                    name="message"
+                    rows={4}
+                    onFocus={() => setFocusedField("message")}
+                    onBlur={() => setFocusedField(null)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                    placeholder={t("form_message_placeholder")}
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-white/60 mb-2">{t("form_subject")}</label>
-                <input 
-                  required
-                  name="subject"
-                  type="text" 
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-yellow transition-colors text-white"
-                  placeholder={t("form_subject_placeholder")}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/60 mb-2">{t("form_message")}</label>
-                <textarea 
-                  required
-                  name="message"
-                  rows={4}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-yellow transition-colors text-white"
-                  placeholder={t("form_message_placeholder")}
-                />
-              </div>
+
+              {/* Submit Button */}
               <button 
                 disabled={status === "sending"}
                 className={cn(
-                  "w-full py-4 rounded-xl font-black flex items-center justify-center gap-2 transition-all shadow-[0_10px_20px_rgba(255,205,0,0.2)]",
-                  status === "success" ? "bg-brand-green text-white" : "bg-brand-yellow text-black hover:scale-[1.02] active:scale-[0.98]"
+                  "w-full py-4 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all duration-300",
+                  status === "success" 
+                    ? "bg-brand-green text-white shadow-[0_0_20px_rgba(0,204,102,0.3)]" 
+                    : "bg-brand-yellow text-black hover:scale-[1.01] active:scale-[0.99] hover:bg-white transition-all shadow-[0_10px_30px_rgba(255,205,0,0.15)]"
                 )}
               >
-                {status === "idle" && <><Send className="w-5 h-5" /> {t("submit_btn")}</>}
-                {status === "sending" && <div className="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin" />}
-                {status === "success" && <><CheckCircle2 className="w-5 h-5" /> {t("submit_btn")}</>}
+                {status === "idle" && <><Send className="w-4 h-4" /> {t("submit_btn")}</>}
+                {status === "sending" && <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />}
+                {status === "success" && <><CheckCircle2 className="w-4 h-4 animate-bounce" /> {t("submit_btn")}</>}
               </button>
             </form>
           </motion.div>
