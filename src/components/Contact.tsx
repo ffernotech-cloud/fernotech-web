@@ -175,7 +175,7 @@ export const ContactForm = () => {
             </div>
 
             {/* Stylized Cyber Map Placeholder (Interactive visual feel) */}
-            <div className="rounded-3xl overflow-hidden border border-white/5 glass h-48 relative group">
+            <div className="rounded-3xl overflow-hidden border border-card-border glass h-48 relative group">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127278.43085521743!2d18.502939986348825!3d4.387602052194917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a7f6fa07659dfd3%3A0xe5439a3fd9df8ef5!2sBangui!5e0!3m2!1sfr!2scf!4v1715000000000!5m2!1sfr!2scf" 
                 width="100%" 
@@ -186,7 +186,7 @@ export const ContactForm = () => {
                 className="transition-opacity group-hover:opacity-85 duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent pointer-events-none" />
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-card-border text-[10px] uppercase font-black text-brand-yellow tracking-widest flex items-center gap-1.5">
+              <div className="absolute bottom-4 left-4 bg-overlay-bg backdrop-blur-md px-3 py-1.5 rounded-xl border border-card-border text-[10px] uppercase font-black text-brand-yellow tracking-widest flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 bg-brand-green rounded-full animate-ping" />
                 HQ Bangui, RCA
               </div>
@@ -342,7 +342,7 @@ export const ContactForm = () => {
 export const Contact = () => {
   return (
     <Suspense fallback={
-      <div className="py-24 bg-[#050508] text-center text-white">
+      <div className="py-24 bg-background text-center text-text-primary">
         <div className="w-10 h-10 border-2 border-brand-yellow border-t-transparent rounded-full animate-spin mx-auto mb-4" />
         <p>Chargement du formulaire...</p>
       </div>

@@ -75,7 +75,7 @@ export const Navbar = () => {
                       <Link
                         key={dropItem.name}
                         href={dropItem.href}
-                        className="block px-4 py-3 text-sm text-navbar-text hover:text-navbar-text-hover hover:bg-white/5 rounded-xl transition-colors"
+                        className="block px-4 py-3 text-sm text-navbar-text hover:text-navbar-text-hover hover:bg-foreground/5 rounded-xl transition-colors"
                       >
                         {dropItem.name}
                       </Link>

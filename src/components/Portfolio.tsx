@@ -68,7 +68,7 @@ export const Portfolio = ({ showAllBtn = true }: PortfolioProps) => {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
                 onClick={() => setSelectedProject(project)}
-                className="group relative overflow-hidden rounded-3xl glass border-white/5 cursor-pointer hover:border-brand-yellow/30 transition-all"
+                className="group relative overflow-hidden rounded-3xl glass border-card-border cursor-pointer hover:border-brand-yellow/30 transition-all"
               >
                 <div className="aspect-video overflow-hidden">
                   <img 
@@ -100,7 +100,7 @@ export const Portfolio = ({ showAllBtn = true }: PortfolioProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm" 
+              className="absolute inset-0 bg-overlay-bg/80 backdrop-blur-sm" 
             />
             
             <motion.div
@@ -165,7 +165,7 @@ export const Portfolio = ({ showAllBtn = true }: PortfolioProps) => {
                    <button className="flex-1 py-4 bg-foreground text-background rounded-2xl font-black flex items-center justify-center gap-2 hover:bg-brand-yellow hover:text-black transition-all">
                      {t("portfolio_view_btn")} <ExternalLink className="w-4 h-4" />
                    </button>
-                   <button className="w-14 h-14 glass flex items-center justify-center rounded-2xl hover:bg-white/10 transition-colors">
+                   <button className="w-14 h-14 glass flex items-center justify-center rounded-2xl hover:bg-foreground/10 transition-colors">
                      <Code className="w-6 h-6" />
                    </button>
                  </div>

@@ -76,7 +76,7 @@ export default function MentionsLegales() {
   const content = pageTranslations[language] || pageTranslations.fr;
 
   return (
-    <main className="min-h-screen bg-[#050508] text-white pt-32 pb-24 relative overflow-hidden">
+    <main className="min-h-screen bg-background text-text-primary pt-32 pb-24 relative overflow-hidden">
       {/* Background neon elements */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-yellow/5 rounded-full blur-[150px] pointer-events-none" />
@@ -91,7 +91,7 @@ export default function MentionsLegales() {
           <span className="text-xs uppercase font-black tracking-widest text-brand-yellow mb-3 block">
             {content.subtitle}
           </span>
-          <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-text-primary">
             {content.title1} <span className="text-brand-blue">{content.title2}</span>
           </h1>
           <div className="w-12 h-1 bg-brand-yellow mx-auto rounded-full" />
@@ -101,14 +101,14 @@ export default function MentionsLegales() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="space-y-8 glass p-8 md:p-12 rounded-[2.5rem] border border-white/5"
+          className="space-y-8 glass p-8 md:p-12 rounded-[2.5rem] border border-card-border"
         >
           {/* Section 1 */}
           <section className="space-y-4">
             <h2 className="text-xl font-bold flex items-center gap-3 text-brand-yellow">
               <Scale className="w-5 h-5" /> {content.sec1_title}
             </h2>
-            <div className="text-white/60 text-sm leading-relaxed pl-8 space-y-2">
+            <div className="text-text-secondary text-sm leading-relaxed pl-8 space-y-2">
               <p>{content.sec1_desc1}</p>
               <p><strong>{content.sec1_desc2.split(":")[0]} :</strong>{content.sec1_desc2.split(":")[1]}</p>
               <p><strong>{content.sec1_desc3.split(":")[0]} :</strong>{content.sec1_desc3.split(":")[1]}</p>
@@ -116,14 +116,14 @@ export default function MentionsLegales() {
             </div>
           </section>
 
-          <hr className="border-white/5" />
+          <hr className="border-card-border" />
 
           {/* Section 2 */}
           <section className="space-y-4">
             <h2 className="text-xl font-bold flex items-center gap-3 text-brand-blue">
               <Shield className="w-5 h-5" /> {content.sec2_title}
             </h2>
-            <div className="text-white/60 text-sm leading-relaxed pl-8 space-y-2">
+            <div className="text-text-secondary text-sm leading-relaxed pl-8 space-y-2">
               <p>{content.sec2_desc1}</p>
               <p><strong>{content.sec2_desc2.split(":")[0]} :</strong>{content.sec2_desc2.split(":")[1]}</p>
               <p><strong>{content.sec2_desc3.split(":")[0]} :</strong>{content.sec2_desc3.split(":")[1]}</p>
@@ -131,27 +131,27 @@ export default function MentionsLegales() {
             </div>
           </section>
 
-          <hr className="border-white/5" />
+          <hr className="border-card-border" />
 
           {/* Section 3 */}
           <section className="space-y-4">
             <h2 className="text-xl font-bold flex items-center gap-3 text-brand-green">
               <FileText className="w-5 h-5" /> {content.sec3_title}
             </h2>
-            <div className="text-white/60 text-sm leading-relaxed pl-8 space-y-4">
+            <div className="text-text-secondary text-sm leading-relaxed pl-8 space-y-4">
               <p>{content.sec3_desc1}</p>
               <p>{content.sec3_desc2}</p>
             </div>
           </section>
 
-          <hr className="border-white/5" />
+          <hr className="border-card-border" />
 
           {/* Section 4 */}
           <section className="space-y-4">
             <h2 className="text-xl font-bold flex items-center gap-3 text-brand-yellow">
               <UserCheck className="w-5 h-5" /> {content.sec4_title}
             </h2>
-            <div className="text-white/60 text-sm leading-relaxed pl-8 space-y-2">
+            <div className="text-text-secondary text-sm leading-relaxed pl-8 space-y-2">
               <p>{content.sec4_desc1}</p>
               <p>{content.sec4_desc2}</p>
             </div>

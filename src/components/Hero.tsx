@@ -77,21 +77,21 @@ export const Hero = () => {
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 4, repeat: Infinity }}
-            className="glass p-6 rounded-3xl border-white/5 shadow-2xl"
+            className="glass p-6 rounded-3xl border-card-border shadow-2xl"
           >
             <Cpu className="w-12 h-12 text-brand-blue" />
           </motion.div>
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-            className="glass p-6 rounded-3xl border-white/5 shadow-2xl translate-x-12"
+            className="glass p-6 rounded-3xl border-card-border shadow-2xl translate-x-12"
           >
             <Zap className="w-12 h-12 text-brand-yellow" />
           </motion.div>
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 6, repeat: Infinity, delay: 2 }}
-            className="glass p-6 rounded-3xl border-white/5 shadow-2xl"
+            className="glass p-6 rounded-3xl border-card-border shadow-2xl"
           >
             <Globe className="w-12 h-12 text-brand-green" />
           </motion.div>
