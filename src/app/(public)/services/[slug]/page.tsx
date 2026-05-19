@@ -353,20 +353,20 @@ export default function ServiceSlugPage() {
   const otherServices = Object.keys(servicesData).filter(key => key !== slug);
 
   return (
-    <main className="min-h-screen bg-[#050506] text-white pt-24 pb-20">
+    <main className="min-h-screen bg-background text-text-primary pt-24 pb-20">
       {/* Header Banner */}
       <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[10s]"
           style={{ backgroundImage: `url('${service.bgImage}')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050506] via-[#050506]/70 to-transparent" />
-        <div className="absolute inset-0 bg-[#050506]/30 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
+        <div className="absolute inset-0 bg-background/30 backdrop-blur-[1px]" />
 
         <div className="container mx-auto px-6 relative z-10 text-center space-y-6 max-w-4xl">
           <Link 
             href="/services"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-white/60 hover:text-white hover:bg-white/10 transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card-bg border border-card-border text-xs font-bold text-text-secondary hover:text-text-primary hover:bg-foreground/10 transition-all"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             {language === "fr" ? "Tous les Services" : language === "sg" ? "Akua nî kûê" : "All Services"}
@@ -382,7 +382,7 @@ export default function ServiceSlugPage() {
               {content.title}
             </span>
           </h1>
-          <p className="text-white/60 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-text-secondary text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
             {content.subtitle}
           </p>
         </div>
@@ -394,35 +394,35 @@ export default function ServiceSlugPage() {
         {/* Left Column: Overview and Features */}
         <div className="lg:col-span-2 space-y-12">
           {/* Overview Card */}
-          <div className="glass p-8 md:p-12 rounded-[2.5rem] border-white/5 space-y-6">
+          <div className="glass p-8 md:p-12 rounded-[2.5rem] border-card-border space-y-6">
             <div className={cn(
               "w-16 h-16 rounded-2xl flex items-center justify-center",
               `bg-${service.color}/10 text-${service.color}`
             )}>
               <ServiceIcon className="w-10 h-10 animate-pulse" />
             </div>
-            <h2 className="text-2xl font-black tracking-tight border-b border-white/5 pb-4">
+            <h2 className="text-2xl font-black tracking-tight border-b border-card-border pb-4 text-text-primary">
               {language === "fr" ? "Présentation du Service" : language === "sg" ? "Tènë tî Kua nî" : "Service Overview"}
             </h2>
-            <p className="text-white/70 text-base leading-relaxed font-medium">
+            <p className="text-text-secondary text-base leading-relaxed font-medium">
               {content.overview}
             </p>
           </div>
 
           {/* Key Features Grid */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-black tracking-tight px-2">
+            <h3 className="text-2xl font-black tracking-tight px-2 text-text-primary">
               {language === "fr" ? "Avantages & Fonctionnalités" : language === "sg" ? "Mabôkô tî Kua nî" : "Key Benefits & Features"}
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               {content.features.map((feature, i) => (
-                <div key={i} className="glass p-8 rounded-3xl border-white/5 flex gap-4 items-start group hover:border-white/10 transition-colors">
+                <div key={i} className="glass p-8 rounded-3xl border-card-border flex gap-4 items-start group hover:border-card-border transition-colors">
                   <div className={cn("mt-1 flex-shrink-0", `text-${service.color}`)}>
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div className="space-y-2">
-                    <h4 className="font-bold text-base group-hover:text-white transition-colors">{feature.title}</h4>
-                    <p className="text-white/40 text-xs leading-relaxed">{feature.desc}</p>
+                    <h4 className="font-bold text-base text-text-primary group-hover:text-brand-blue transition-colors">{feature.title}</h4>
+                    <p className="text-text-secondary text-xs leading-relaxed">{feature.desc}</p>
                   </div>
                 </div>
               ))}
@@ -433,24 +433,24 @@ export default function ServiceSlugPage() {
         {/* Right Column: Case study, Quick Contact CTA */}
         <div className="space-y-8">
           {/* Use Case Card */}
-          <div className="glass p-8 rounded-3xl border-white/5 relative overflow-hidden group">
+          <div className="glass p-8 rounded-3xl border-card-border relative overflow-hidden group">
             <div className={cn("absolute top-0 right-0 w-24 h-24 blur-[40px] opacity-20", `bg-${service.color}`)} />
             <h3 className="text-sm font-black text-brand-yellow uppercase tracking-widest mb-4">// {language === "fr" ? "Cas d'Usage Réel" : language === "sg" ? "Kua tî bîakû" : "Real Use Case"}</h3>
-            <p className="text-white/70 text-sm leading-relaxed font-medium">
+            <p className="text-text-secondary text-sm leading-relaxed font-medium">
               {content.useCase}
             </p>
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-white/40">
+            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-text-secondary">
               <Zap className={cn("w-4 h-4", `text-${service.color}`)} />
               {language === "fr" ? "Technologie Appliquée" : language === "sg" ? "Machine tî bîakû" : "Applied Technology"}
             </div>
           </div>
 
           {/* Quick Contact CTA */}
-          <div className="glass p-8 rounded-[2rem] border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent space-y-6">
-            <h3 className="text-xl font-black">
+          <div className="glass p-8 rounded-[2rem] border-card-border bg-gradient-to-b from-foreground/[0.02] to-transparent space-y-6">
+            <h3 className="text-xl font-black text-text-primary">
               {language === "fr" ? "Intéressé par ce service ?" : language === "sg" ? "Mo ye kua so?" : "Interested in this service?"}
             </h3>
-            <p className="text-white/40 text-xs leading-relaxed">
+            <p className="text-text-secondary text-xs leading-relaxed">
               {language === "fr" ? "Contactez nos ingénieurs pour obtenir une étude personnalisée et un devis adapté à votre projet." :
                language === "sg" ? "Sâra tènë na e tî leke machine wala kua tî mo na sîon tî bîakû." :
                "Contact our engineers to get a personalized study and a custom quote adapted to your project."}
@@ -468,8 +468,8 @@ export default function ServiceSlugPage() {
       </section>
 
       {/* Recommended Other Services Carousel */}
-      <section className="container mx-auto px-6 max-w-6xl mt-24 border-t border-white/5 pt-16">
-        <h3 className="text-2xl font-black mb-8">
+      <section className="container mx-auto px-6 max-w-6xl mt-24 border-t border-card-border pt-16">
+        <h3 className="text-2xl font-black mb-8 text-text-primary">
           {language === "fr" ? "Découvrir nos autres expertises" : language === "sg" ? "Ambo akua tî e tî fîni" : "Explore our other expertises"}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -482,7 +482,7 @@ export default function ServiceSlugPage() {
               <Link 
                 key={key} 
                 href={`/services/${key}`}
-                className="glass p-6 rounded-3xl border-white/5 hover:border-white/10 group flex flex-col justify-between hover:scale-[1.02] transition-all cursor-pointer"
+                className="glass p-6 rounded-3xl border-card-border hover:border-card-border group flex flex-col justify-between hover:scale-[1.02] transition-all cursor-pointer"
               >
                 <div className="space-y-4">
                   <div className={cn(
@@ -491,8 +491,8 @@ export default function ServiceSlugPage() {
                   )}>
                     <ItemIcon className="w-6 h-6" />
                   </div>
-                  <h4 className="font-bold text-lg group-hover:text-brand-blue transition-colors leading-tight">{itemContent.title}</h4>
-                  <p className="text-white/40 text-xs line-clamp-2 leading-relaxed">{itemContent.subtitle}</p>
+                  <h4 className="font-bold text-lg text-text-primary group-hover:text-brand-blue transition-colors leading-tight">{itemContent.title}</h4>
+                  <p className="text-text-secondary text-xs line-clamp-2 leading-relaxed">{itemContent.subtitle}</p>
                 </div>
                 <div className="mt-6 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-brand-yellow group-hover:text-white transition-colors">
                   {language === "fr" ? "Explorer" : language === "sg" ? "Bâ kûê" : "Explore"}

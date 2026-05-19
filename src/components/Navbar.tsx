@@ -141,7 +141,7 @@ export const Navbar = () => {
             {language.toUpperCase()}
           </button>
           <button
-            className="text-white light:text-black"
+            className="text-text-primary"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -156,7 +156,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10 p-6 md:hidden"
+            className="absolute top-full left-0 right-0 bg-overlay-bg backdrop-blur-xl border-b border-card-border p-6 md:hidden"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -164,15 +164,15 @@ export const Navbar = () => {
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white/80 hover:text-brand-yellow"
+                  className="text-lg font-medium text-text-secondary hover:text-brand-yellow"
                 >
                   {link.name}
                 </Link>
               ))}
               <Link
-                href="#contact"
+                href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3 bg-brand-yellow text-black rounded-xl font-bold text-center"
+                className="w-full py-3 bg-foreground text-background hover:bg-brand-yellow hover:text-black rounded-xl font-bold text-center transition-colors"
               >
                 {t("nav_contact")}
               </Link>
