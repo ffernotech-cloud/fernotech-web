@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Rocket, Cpu, ChevronRight, Sparkles, Zap, ArrowRight, Globe } from "lucide-react";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
 export const Hero = () => {
@@ -54,14 +55,20 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center gap-4"
+            className="flex flex-col sm:flex-row items-center gap-4 z-10 relative"
           >
-            <button className="px-8 py-4 bg-white text-black rounded-full font-bold flex items-center gap-2 hover:bg-brand-yellow transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+            <Link 
+              href="/services" 
+              className="px-8 py-4 bg-white text-black rounded-full font-bold flex items-center gap-2 hover:bg-brand-yellow transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+            >
               {t("hero_discover_btn")} <ChevronRight className="w-4 h-4" />
-            </button>
-            <button className="px-8 py-4 glass text-white rounded-full font-bold hover:bg-white/10 transition-all">
+            </Link>
+            <Link 
+              href="/contact" 
+              className="px-8 py-4 glass text-white rounded-full font-bold hover:bg-white/10 transition-all"
+            >
               {t("nav_contact")}
-            </button>
+            </Link>
           </motion.div>
         </div>
 
