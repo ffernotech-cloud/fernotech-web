@@ -57,12 +57,12 @@ export const Footer = () => {
                 Contactez notre équipe d'ingénieurs pour une étude personnalisée de votre projet.
               </p>
             </div>
-            <a 
-              href="#contact" 
+            <Link 
+              href="/contact" 
               className="px-10 py-5 bg-brand-blue text-white font-black rounded-2xl flex items-center gap-3 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(0,82,180,0.3)]"
             >
               Demander un devis <ArrowUpRight className="w-5 h-5" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

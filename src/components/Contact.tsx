@@ -1,15 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, MessageCircle, CheckCircle2, User, Tag, MessageSquare, AtSign } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 
-export const Contact = () => {
-  const { t } = useLanguage();
+export const ContactForm = () => {
+  const { t, language } = useLanguage();
+  const searchParams = useSearchParams();
+  const service = searchParams?.get("service") || "";
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
   const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  // Map service slugs to nice subject lines in different languages
+  const getSubjectDefault = () => {
+    if (!service) return "";
+    
+    const serviceNames: Record<string, { fr: string, en: string, sg: string }> = {
+      robotique: {
+        fr: "Demande de devis - Robotique Industrielle & Écologique",
+        en: "Quote Request - Industrial & Ecological Robotics",
+        sg: "Mû Devis - Lekengo Kua tî Robot"
+      },
+      electronique: {
+        fr: "Demande de devis - Électronique de Pointe & Maintenance",
+        en: "Quote Request - Advanced Electronics & Maintenance",
+        sg: "Mû Devis - Électronique na Kua tî Kâsa"
+      },
+      logiciel: {
+        fr: "Demande de devis - Développement Logiciel & Applications",
+        en: "Quote Request - Software & App Development",
+        sg: "Mû Devis - Lekengo Programme (Logiciel)"
+      },
+      embarque: {
+        fr: "Demande de devis - Systèmes Embarqués & IoT",
+        en: "Quote Request - Embedded Systems & IoT",
+        sg: "Mû Devis - IoT na Système Embarqué"
+      },
+      formation: {
+        fr: "Demande d'information - Formation & Mentorat",
+        en: "Information Request - Training & Mentorship",
+        sg: "Tènë tî mandango-kua - Wango & Mandango-kua"
+      },
+      conseil: {
+        fr: "Demande de devis - Conseil & Innovation Technologique",
+        en: "Quote Request - Consulting & Tech Innovation",
+        sg: "Mû Devis - Wango & Fin-yê"
+      },
+      commerce: {
+        fr: "Demande de devis - Vente d'Équipements & Composants",
+        en: "Quote Request - Equipment & Components Sales",
+        sg: "Mû Devis - Kângo a-machine na kâsa"
+      }
+    };
+
+    const match = serviceNames[service];
+    if (match) {
+      return match[language as 'fr' | 'en' | 'sg'] || match.fr;
+    }
+    
+    return "";
+  };
+
+  const defaultSubject = getSubjectDefault();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -214,6 +269,8 @@ export const Contact = () => {
                     required
                     name="subject"
                     type="text" 
+                    key={defaultSubject}
+                    defaultValue={defaultSubject}
                     onFocus={() => setFocusedField("subject")}
                     onBlur={() => setFocusedField(null)}
                     className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
@@ -279,5 +336,18 @@ export const Contact = () => {
         <MessageCircle className="w-8 h-8 fill-current" />
       </motion.a>
     </section>
+  );
+};
+
+export const Contact = () => {
+  return (
+    <Suspense fallback={
+      <div className="py-24 bg-[#050508] text-center text-white">
+        <div className="w-10 h-10 border-2 border-brand-yellow border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p>Chargement du formulaire...</p>
+      </div>
+    }>
+      <ContactForm />
+    </Suspense>
   );
 };
