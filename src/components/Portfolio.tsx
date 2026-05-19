@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Code, X, Zap, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 import { useContent } from "@/context/ContentContext";
@@ -16,7 +17,11 @@ interface Project {
   tech?: string[];
 }
 
-export const Portfolio = () => {
+interface PortfolioProps {
+  showAllBtn?: boolean;
+}
+
+export const Portfolio = ({ showAllBtn = true }: PortfolioProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const { t, language } = useLanguage();
   const { projects } = useContent();
@@ -34,10 +39,15 @@ export const Portfolio = () => {
             <h2 className="text-4xl font-bold mb-4"><span className="text-brand-blue">{t("portfolio_title")}</span></h2>
             <p className="text-white/40">{t("portfolio_subtitle")}</p>
           </div>
-          <button className="text-brand-yellow font-bold flex items-center gap-2 hover:underline">
-            {t("portfolio_all_btn")}
-            <ExternalLink className="w-4 h-4" />
-          </button>
+          {showAllBtn && (
+            <Link 
+              href="/projets" 
+              className="text-brand-yellow font-bold flex items-center gap-2 hover:underline z-10"
+            >
+              {t("portfolio_all_btn")}
+              <ExternalLink className="w-4 h-4" />
+            </Link>
+          )}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

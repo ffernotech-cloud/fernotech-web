@@ -3,10 +3,15 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, User, ArrowRight, BookOpen } from "lucide-react";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useContent } from "@/context/ContentContext";
 
-export const Blog = () => {
+interface BlogProps {
+  showAllBtn?: boolean;
+}
+
+export const Blog = ({ showAllBtn = true }: BlogProps) => {
   const { t } = useLanguage();
   const { posts } = useContent();
 
@@ -23,10 +28,15 @@ export const Blog = () => {
             <h2 className="text-4xl font-bold mb-4">{t("blog_title")}</h2>
             <p className="text-white/40">{t("blog_subtitle")}</p>
           </div>
-          <button className="hidden md:flex items-center gap-2 text-brand-yellow font-bold hover:underline mt-6 md:mt-0">
-            {t("blog_explorer_btn")}
-            <BookOpen className="w-4 h-4" />
-          </button>
+          {showAllBtn && (
+            <Link 
+              href="/blog" 
+              className="hidden md:flex items-center gap-2 text-brand-yellow font-bold hover:underline mt-6 md:mt-0 z-10"
+            >
+              {t("blog_explorer_btn")}
+              <BookOpen className="w-4 h-4" />
+            </Link>
+          )}
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
