@@ -40,10 +40,10 @@ export const FAQ = () => {
             <HelpCircle className="w-4 h-4" />
             FAQ
           </motion.div>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 text-text-primary">
             {t("faq_title") || "Questions Fréquentes"}
           </h2>
-          <p className="text-white/40 light:text-black/40 text-lg">
+          <p className="text-text-secondary text-lg">
             {t("faq_subtitle") || "Tout ce que vous devez savoir sur nos services et notre technologie."}
           </p>
         </div>
@@ -55,16 +55,16 @@ export const FAQ = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="glass light:bg-black/5 rounded-3xl border-white/5 overflow-hidden"
+              className="glass rounded-3xl border-card-border overflow-hidden"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-8 py-6 flex items-center justify-between text-left transition-colors hover:bg-white/5"
+                className="w-full px-8 py-6 flex items-center justify-between text-left transition-colors hover:bg-foreground/5"
               >
-                <span className="text-lg font-bold">
+                <span className="text-lg font-bold text-text-primary">
                   {t(faq.questionKey) || "Question..."}
                 </span>
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center">
                   {openIndex === index ? <Minus className="w-4 h-4 text-brand-yellow" /> : <Plus className="w-4 h-4 text-brand-blue" />}
                 </div>
               </button>
@@ -76,7 +76,7 @@ export const FAQ = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="px-8 pb-8 text-white/60 light:text-black/60 leading-relaxed">
+                    <div className="px-8 pb-8 text-text-secondary leading-relaxed">
                       {t(faq.answerKey) || "Réponse à venir..."}
                     </div>
                   </motion.div>

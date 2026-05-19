@@ -75,7 +75,7 @@ export const Services = () => {
       className="py-24 relative overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed"
       style={{ backgroundImage: `url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop')` }}
     >
-      <div className="absolute inset-0 bg-[#050506]/90 backdrop-blur-[2px] z-0" />
+      <div className="absolute inset-0 bg-overlay-bg backdrop-blur-[2px] z-0" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <motion.h2 
@@ -91,7 +91,7 @@ export const Services = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-white/60 max-w-xl mx-auto"
+            className="text-text-secondary max-w-xl mx-auto"
           >
             {t("services_subtitle")}
           </motion.p>
@@ -109,7 +109,7 @@ export const Services = () => {
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ y: -10 }}
                 className={cn(
-                  "glass p-8 rounded-3xl relative group cursor-pointer border-transparent hover:border-white/20 transition-all h-full flex flex-col justify-between",
+                  "glass p-8 rounded-3xl relative group cursor-pointer border-transparent hover:border-card-border transition-all h-full flex flex-col justify-between",
                   service.glow && `hover:${service.glow}`
                 )}
               >
@@ -120,8 +120,8 @@ export const Services = () => {
                   )}>
                     <service.icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed">
+                  <h3 className="text-xl font-bold mb-3 text-text-primary">{service.title}</h3>
+                  <p className="text-text-secondary text-sm leading-relaxed">
                     {service.desc}
                   </p>
                 </div>

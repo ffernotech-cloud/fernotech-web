@@ -2,6 +2,7 @@
 
 :root {
   --background: #050506;
+  --background-radial: #1a1a24;
   --foreground: #ffffff;
   
   --brand-red: #E70012;
@@ -13,16 +14,47 @@
   --neon-yellow: 0 0 10px rgba(255, 205, 0, 0.5), 0 0 20px rgba(255, 205, 0, 0.3);
   --neon-green: 0 0 10px rgba(0, 150, 57, 0.5), 0 0 20px rgba(0, 150, 57, 0.3);
   --neon-blue: 0 0 10px rgba(0, 82, 180, 0.5), 0 0 20px rgba(0, 82, 180, 0.3);
+
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.4);
+  
+  --overlay-bg: rgba(5, 5, 6, 0.9);
+  --overlay-hero-bg: rgba(5, 5, 6, 0.85);
+  
+  --navbar-bg: rgba(0, 0, 0, 0.6);
+  --navbar-text: rgba(255, 255, 255, 0.7);
+  --navbar-text-hover: #ffffff;
 }
 
 .light {
   --background: #f8f9fa;
+  --background-radial: #ffffff;
   --foreground: #050506;
   
   --neon-red: 0 5px 15px rgba(231, 0, 18, 0.15);
   --neon-yellow: 0 5px 15px rgba(255, 205, 0, 0.15);
   --neon-green: 0 5px 15px rgba(0, 150, 57, 0.15);
   --neon-blue: 0 5px 15px rgba(0, 82, 180, 0.15);
+
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  
+  --text-primary: #050506;
+  --text-secondary: rgba(5, 5, 6, 0.75);
+  --text-muted: rgba(5, 5, 6, 0.45);
+  
+  --overlay-bg: rgba(248, 249, 250, 0.92);
+  --overlay-hero-bg: rgba(248, 249, 250, 0.85);
+  
+  --navbar-bg: rgba(255, 255, 255, 0.75);
+  --navbar-text: rgba(5, 5, 6, 0.7);
+  --navbar-text-hover: #050506;
 }
 
 @theme inline {
@@ -41,10 +73,25 @@
   
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-glass-bg: var(--glass-bg);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  
+  --color-overlay-bg: var(--overlay-bg);
+  --color-overlay-hero-bg: var(--overlay-hero-bg);
+  
+  --color-navbar-bg: var(--navbar-bg);
+  --color-navbar-text: var(--navbar-text);
+  --color-navbar-text-hover: var(--navbar-text-hover);
 }
 
 body {
-  background: radial-gradient(circle at 50% -20%, #1a1a24 0%, var(--background) 100%);
+  background: radial-gradient(circle at 50% -20%, var(--background-radial) 0%, var(--background) 100%);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -53,7 +100,9 @@ body {
 /* Custom Utilities */
 @layer utilities {
   .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
   }
   
   .glow-red {

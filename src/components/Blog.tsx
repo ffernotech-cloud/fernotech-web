@@ -21,12 +21,12 @@ export const Blog = ({ showAllBtn = true }: BlogProps) => {
       className="py-24 relative overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed"
       style={{ backgroundImage: `url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=2070&auto=format&fit=crop')` }}
     >
-      <div className="absolute inset-0 bg-[#050506]/90 backdrop-blur-[2px] z-0" />
+      <div className="absolute inset-0 bg-overlay-bg backdrop-blur-[2px] z-0" />
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16">
           <div>
-            <h2 className="text-4xl font-bold mb-4">{t("blog_title")}</h2>
-            <p className="text-white/40">{t("blog_subtitle")}</p>
+            <h2 className="text-4xl font-bold mb-4 text-text-primary">{t("blog_title")}</h2>
+            <p className="text-text-muted">{t("blog_subtitle")}</p>
           </div>
           {showAllBtn && (
             <Link 
@@ -47,7 +47,7 @@ export const Blog = ({ showAllBtn = true }: BlogProps) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="group bg-white/5 rounded-[2rem] overflow-hidden border border-white/5 hover:border-brand-blue/30 transition-all flex flex-col"
+              className="group bg-card-bg rounded-[2rem] overflow-hidden border border-card-border hover:border-brand-blue/30 transition-all flex flex-col"
             >
               <div className="h-52 overflow-hidden relative">
                 <img 
@@ -61,21 +61,21 @@ export const Blog = ({ showAllBtn = true }: BlogProps) => {
               </div>
               
               <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center gap-4 text-[10px] text-white/30 mb-4 font-bold uppercase tracking-wider">
+                <div className="flex items-center gap-4 text-[10px] text-text-muted mb-4 font-bold uppercase tracking-wider">
                   <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> {p.date}</span>
                   <span className="flex items-center gap-1.5"><User className="w-3 h-3" /> {p.author}</span>
                 </div>
                 
-                <h3 className="text-xl font-bold mb-4 group-hover:text-brand-blue transition-colors">
+                <h3 className="text-xl font-bold mb-4 text-text-primary group-hover:text-brand-blue transition-colors">
                   {t(p.titleKey)}
                 </h3>
                 
-                <p className="text-white/50 text-sm mb-6 line-clamp-3">
+                <p className="text-text-secondary text-sm mb-6 line-clamp-3">
                   {t(p.excerptKey)}
                 </p>
                 
-                <div className="mt-auto pt-6 border-t border-white/5">
-                  <button className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-white/60 group-hover:text-brand-yellow transition-all">
+                <div className="mt-auto pt-6 border-t border-card-border">
+                  <button className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-text-secondary group-hover:text-brand-yellow transition-all">
                     {t("blog_read_more")} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>

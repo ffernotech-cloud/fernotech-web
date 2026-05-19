@@ -103,7 +103,7 @@ export const ContactForm = () => {
   return (
     <section 
       id="contact" 
-      className="py-24 relative overflow-hidden bg-[#050508]"
+      className="py-24 relative overflow-hidden bg-background"
     >
       {/* Background Decorative Cyber Gradients */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-[120px] pointer-events-none" />
@@ -123,10 +123,10 @@ export const ContactForm = () => {
             <span className="text-xs uppercase font-black tracking-widest text-brand-yellow mb-3 block">
               // {t("contact_whatsapp_label")}
             </span>
-            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-text-primary">
               {t("contact_title")}
             </h2>
-            <p className="text-white/60 mb-10 text-sm leading-relaxed max-w-md">
+            <p className="text-text-secondary mb-10 text-sm leading-relaxed max-w-md">
               {t("contact_desc")}
             </p>
 
@@ -134,42 +134,42 @@ export const ContactForm = () => {
               {/* WhatsApp / Phone Card */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-4 glass p-5 rounded-2xl border border-white/5 hover:border-brand-yellow/30 hover:shadow-[0_0_25px_rgba(255,205,0,0.1)] transition-all cursor-pointer"
+                className="flex items-center gap-4 glass p-5 rounded-2xl border border-card-border hover:border-brand-yellow/30 hover:shadow-[0_0_25px_rgba(255,205,0,0.1)] transition-all cursor-pointer"
               >
                 <div className="w-12 h-12 rounded-xl bg-brand-yellow/10 flex items-center justify-center text-brand-yellow">
                   <Phone className="w-5 h-5 animate-pulse" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">{t("contact_whatsapp_label")}</p>
-                  <p className="font-bold text-white text-sm md:text-base">+236 72 93 47 90 / 76 05 58 44</p>
+                  <p className="text-[10px] text-text-muted uppercase font-black tracking-widest">{t("contact_whatsapp_label")}</p>
+                  <p className="font-bold text-text-primary text-sm md:text-base">+236 72 93 47 90 / 76 05 58 44</p>
                 </div>
               </motion.div>
 
               {/* Email Card */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-4 glass p-5 rounded-2xl border border-white/5 hover:border-brand-blue/30 hover:shadow-[0_0_25px_rgba(0,102,204,0.1)] transition-all cursor-pointer"
+                className="flex items-center gap-4 glass p-5 rounded-2xl border border-card-border hover:border-brand-blue/30 hover:shadow-[0_0_25px_rgba(0,102,204,0.1)] transition-all cursor-pointer"
               >
                 <div className="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">{t("contact_email_label")}</p>
-                  <p className="font-bold text-white text-sm md:text-base">contact.fernotech@gmail.com</p>
+                  <p className="text-[10px] text-text-muted uppercase font-black tracking-widest">{t("contact_email_label")}</p>
+                  <p className="font-bold text-text-primary text-sm md:text-base">contact.fernotech@gmail.com</p>
                 </div>
               </motion.div>
 
               {/* Location Card */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-4 glass p-5 rounded-2xl border border-white/5 hover:border-brand-green/30 hover:shadow-[0_0_25px_rgba(0,204,102,0.1)] transition-all cursor-pointer"
+                className="flex items-center gap-4 glass p-5 rounded-2xl border border-card-border hover:border-brand-green/30 hover:shadow-[0_0_25px_rgba(0,204,102,0.1)] transition-all cursor-pointer"
               >
                 <div className="w-12 h-12 rounded-xl bg-brand-green/10 flex items-center justify-center text-brand-green">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-white/40 uppercase font-black tracking-widest">{t("contact_location_label")}</p>
-                  <p className="font-bold text-white text-sm md:text-base">{t("contact_location_val")}</p>
+                  <p className="text-[10px] text-text-muted uppercase font-black tracking-widest">{t("contact_location_label")}</p>
+                  <p className="font-bold text-text-primary text-sm md:text-base">{t("contact_location_val")}</p>
                 </div>
               </motion.div>
             </div>
@@ -185,8 +185,8 @@ export const ContactForm = () => {
                 loading="lazy"
                 className="transition-opacity group-hover:opacity-85 duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent pointer-events-none" />
-              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 text-[10px] uppercase font-black text-brand-yellow tracking-widest flex items-center gap-1.5">
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent pointer-events-none" />
+              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-card-border text-[10px] uppercase font-black text-brand-yellow tracking-widest flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 bg-brand-green rounded-full animate-ping" />
                 HQ Bangui, RCA
               </div>
@@ -199,20 +199,20 @@ export const ContactForm = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative"
+            className="lg:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] border border-card-border shadow-2xl relative"
           >
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6">
                 
                 {/* Name Input */}
                 <div className="relative">
-                  <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                  <label className="block text-xs font-black uppercase tracking-widest text-text-muted mb-2">
                     {t("form_name")}
                   </label>
                   <div className="relative">
                     <span className={cn(
                       "absolute left-4 top-3.5 transition-colors duration-300",
-                      focusedField === "name" ? "text-brand-yellow" : "text-white/20"
+                      focusedField === "name" ? "text-brand-yellow" : "text-text-muted"
                     )}>
                       <User className="w-4 h-4" />
                     </span>
@@ -222,7 +222,7 @@ export const ContactForm = () => {
                       type="text" 
                       onFocus={() => setFocusedField("name")}
                       onBlur={() => setFocusedField(null)}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                      className="w-full bg-card-bg border border-card-border rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-text-primary font-medium"
                       placeholder={t("form_name_placeholder")}
                     />
                   </div>
@@ -230,13 +230,13 @@ export const ContactForm = () => {
 
                 {/* Email Input */}
                 <div className="relative">
-                  <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                  <label className="block text-xs font-black uppercase tracking-widest text-text-muted mb-2">
                     {t("form_email")}
                   </label>
                   <div className="relative">
                     <span className={cn(
                       "absolute left-4 top-3.5 transition-colors duration-300",
-                      focusedField === "email" ? "text-brand-yellow" : "text-white/20"
+                      focusedField === "email" ? "text-brand-yellow" : "text-text-muted"
                     )}>
                       <AtSign className="w-4 h-4" />
                     </span>
@@ -246,7 +246,7 @@ export const ContactForm = () => {
                       type="email" 
                       onFocus={() => setFocusedField("email")}
                       onBlur={() => setFocusedField(null)}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                      className="w-full bg-card-bg border border-card-border rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-text-primary font-medium"
                       placeholder={t("form_email_placeholder")}
                     />
                   </div>
@@ -255,13 +255,13 @@ export const ContactForm = () => {
 
               {/* Subject Input */}
               <div className="relative">
-                <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                <label className="block text-xs font-black uppercase tracking-widest text-text-muted mb-2">
                   {t("form_subject")}
                 </label>
                 <div className="relative">
                   <span className={cn(
                     "absolute left-4 top-3.5 transition-colors duration-300",
-                    focusedField === "subject" ? "text-brand-yellow" : "text-white/20"
+                    focusedField === "subject" ? "text-brand-yellow" : "text-text-muted"
                   )}>
                     <Tag className="w-4 h-4" />
                   </span>
@@ -273,7 +273,7 @@ export const ContactForm = () => {
                     defaultValue={defaultSubject}
                     onFocus={() => setFocusedField("subject")}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                    className="w-full bg-card-bg border border-card-border rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-text-primary font-medium"
                     placeholder={t("form_subject_placeholder")}
                   />
                 </div>
@@ -281,13 +281,13 @@ export const ContactForm = () => {
 
               {/* Message Textarea */}
               <div className="relative">
-                <label className="block text-xs font-black uppercase tracking-widest text-white/40 mb-2">
+                <label className="block text-xs font-black uppercase tracking-widest text-text-muted mb-2">
                   {t("form_message")}
                 </label>
                 <div className="relative">
                   <span className={cn(
                     "absolute left-4 top-4 transition-colors duration-300",
-                    focusedField === "message" ? "text-brand-yellow" : "text-white/20"
+                    focusedField === "message" ? "text-brand-yellow" : "text-text-muted"
                   )}>
                     <MessageSquare className="w-4 h-4" />
                   </span>
@@ -297,7 +297,7 @@ export const ContactForm = () => {
                     rows={4}
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-white font-medium"
+                    className="w-full bg-card-bg border border-card-border rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-yellow/80 focus:ring-4 focus:ring-brand-yellow/5 transition-all text-text-primary font-medium"
                     placeholder={t("form_message_placeholder")}
                   />
                 </div>
@@ -310,7 +310,7 @@ export const ContactForm = () => {
                   "w-full py-4 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all duration-300",
                   status === "success" 
                     ? "bg-brand-green text-white shadow-[0_0_20px_rgba(0,204,102,0.3)]" 
-                    : "bg-brand-yellow text-black hover:scale-[1.01] active:scale-[0.99] hover:bg-white transition-all shadow-[0_10px_30px_rgba(255,205,0,0.15)]"
+                    : "bg-brand-yellow text-black hover:scale-[1.01] active:scale-[0.99] hover:bg-foreground hover:text-background transition-all shadow-[0_10px_30px_rgba(255,205,0,0.15)]"
                 )}
               >
                 {status === "idle" && <><Send className="w-4 h-4" /> {t("submit_btn")}</>}
