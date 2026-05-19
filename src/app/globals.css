@@ -32,29 +32,33 @@
 }
 
 .light {
-  --background: #f8f9fa;
+  --background: #eef0f5;
   --background-radial: #ffffff;
   --foreground: #050506;
   
-  --neon-red: 0 5px 15px rgba(231, 0, 18, 0.15);
-  --neon-yellow: 0 5px 15px rgba(255, 205, 0, 0.15);
-  --neon-green: 0 5px 15px rgba(0, 150, 57, 0.15);
-  --neon-blue: 0 5px 15px rgba(0, 82, 180, 0.15);
+  --neon-red: 0 4px 12px rgba(231, 0, 18, 0.12);
+  --neon-yellow: 0 4px 12px rgba(255, 205, 0, 0.12);
+  --neon-green: 0 4px 12px rgba(0, 150, 57, 0.12);
+  --neon-blue: 0 4px 12px rgba(0, 82, 180, 0.12);
 
-  --card-bg: rgba(0, 0, 0, 0.03);
-  --card-border: rgba(0, 0, 0, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.75);
+  /* Cards are solid white with clear borders */
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(0, 0, 0, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.95);
   
-  --text-primary: #050506;
-  --text-secondary: rgba(5, 5, 6, 0.75);
-  --text-muted: rgba(5, 5, 6, 0.45);
+  /* High contrast text for readability */
+  --text-primary: #0a0a0b;
+  --text-secondary: rgba(10, 10, 11, 0.70);
+  --text-muted: rgba(10, 10, 11, 0.48);
   
-  --overlay-bg: rgba(248, 249, 250, 0.92);
-  --overlay-hero-bg: rgba(248, 249, 250, 0.85);
+  /* Parallax section overlays — very opaque so bg image doesn't bleed through */
+  --overlay-bg: rgba(238, 240, 245, 0.97);
+  --overlay-hero-bg: rgba(238, 240, 245, 0.93);
   
-  --navbar-bg: rgba(255, 255, 255, 0.75);
-  --navbar-text: rgba(5, 5, 6, 0.7);
-  --navbar-text-hover: #050506;
+  /* Navbar solid white */
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-text: rgba(10, 10, 11, 0.72);
+  --navbar-text-hover: #0a0a0b;
 }
 
 @theme inline {
@@ -99,12 +103,13 @@ body {
 
 /* Custom Utilities */
 @layer utilities {
+  /* Default (dark mode) glass: translucent + blur */
   .glass {
     background-color: var(--glass-bg);
     backdrop-filter: blur(16px);
     border: 1px solid var(--card-border);
   }
-  
+
   .glow-red {
     box-shadow: var(--neon-red);
   }
@@ -124,6 +129,19 @@ body {
   .animate-shake {
     animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
   }
+}
+
+/* Light mode: remove heavy blur so cards are crisp and readable */
+.light .glass {
+  background-color: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Light mode body: clean white-grey gradient */
+.light body, body.light {
+  background: radial-gradient(circle at 50% -20%, #ffffff 0%, #eef0f5 100%);
 }
 
 @keyframes shake {
