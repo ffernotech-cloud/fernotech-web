@@ -1,5 +1,6 @@
-export const config = { runtime: "nodejs" };
-import { createAdminCookieHeader, createAdminToken, isValidAdminCredentials } from "@/lib/auth";
+export const runtime = "nodejs";
+import { NextResponse, NextRequest } from "next/server";
+import { isValidAdminCredentials, createAdminToken, createAdminCookieHeader } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {

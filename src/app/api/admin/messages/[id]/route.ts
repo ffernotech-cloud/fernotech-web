@@ -1,4 +1,4 @@
-export const config = { runtime: "nodejs" };
+export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -6,14 +6,12 @@ import { verifyAdminToken } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
-// -------------------------------------------------------------------
 // DELETE a single message
-// -------------------------------------------------------------------
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await context.params;
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("fernotech_admin")?.value;
@@ -39,14 +37,12 @@ export async function DELETE(
   }
 }
 
-// -------------------------------------------------------------------
 // PATCH (mark as read/unread)
-// -------------------------------------------------------------------
 export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await context.params;
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("fernotech_admin")?.value;
@@ -58,7 +54,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
-    const { read } = await req.json();
+    const { read } = await request.json();
     const client = await clientPromise;
     const db = client.db();
     const result = await db.collection("messages").updateOne(
