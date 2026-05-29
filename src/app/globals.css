@@ -48,8 +48,8 @@
   
   /* High contrast text for readability */
   --text-primary: #0a0a0b;
-  --text-secondary: rgba(10, 10, 11, 0.70);
-  --text-muted: rgba(10, 10, 11, 0.48);
+  --text-secondary: rgba(10, 10, 11, 0.85); /* Assombri (de 0.70 à 0.85) */
+  --text-muted: rgba(10, 10, 11, 0.65); /* Assombri (de 0.48 à 0.65) */
   
   /* Parallax section overlays — fully opaque so bg image doesn't bleed through blurrily */
   --overlay-bg: #eef0f5;
@@ -57,7 +57,7 @@
   
   /* Navbar solid white */
   --navbar-bg: rgba(255, 255, 255, 0.95);
-  --navbar-text: rgba(10, 10, 11, 0.72);
+  --navbar-text: rgba(10, 10, 11, 0.85); /* Assombri (de 0.72 à 0.85) */
   --navbar-text-hover: #0a0a0b;
 }
 
