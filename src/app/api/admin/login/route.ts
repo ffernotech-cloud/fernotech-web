@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+export const config = { runtime: "nodejs" };
 import { createAdminCookieHeader, createAdminToken, isValidAdminCredentials } from "@/lib/auth";
 
 export async function POST(req: Request) {
