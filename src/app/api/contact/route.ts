@@ -1,11 +1,34 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import clientPromise from "@/lib/mongodb";
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
     const { name, email, subject, message } = data;
 
+    if (!name || !email || !message) {
+      return NextResponse.json({ success: false, error: "Tous les champs obligatoires doivent être remplis." }, { status: 400 });
+    }
+
+    // 1. Sauvegarder dans MongoDB pour le panel admin
+    try {
+      const client = await clientPromise;
+      const db = client.db();
+      await db.collection("messages").insertOne({
+        name,
+        email,
+        subject: subject || "Nouveau Message",
+        message,
+        read: false,
+        createdAt: new Date(),
+      });
+    } catch (dbError) {
+      console.error("Erreur d'insertion MongoDB :", dbError);
+      // On continue quand même pour essayer d'envoyer l'email
+    }
+
+    // 2. Envoyer l'email via Resend
     if (!process.env.RESEND_API_KEY) {
       console.error("Missing RESEND_API_KEY");
       return NextResponse.json({ success: false, error: "Configuration serveur incorrecte" }, { status: 500 });

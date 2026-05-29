@@ -26,6 +26,7 @@ import { Project, Post, Event } from "@/lib/data";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
   
@@ -33,21 +34,46 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "admin123") { // Mot de passe simple pour la démo
+    setLoginError(false);
+
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ username: "admin", password }),
+      });
+
+      if (!res.ok) {
+        setLoginError(true);
+        return;
+      }
+
       setIsAuthenticated(true);
-      setLoginError(false);
-    } else {
+      setPassword("");
+    } catch (error) {
+      console.error("Login failed:", error);
       setLoginError(true);
     }
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setPassword("");
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setIsAuthenticated(false);
+      setPassword("");
+    }
   };
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
@@ -77,31 +103,69 @@ export default function AdminPage() {
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { id: 1, text: "Nouveau message de Jean B.", time: "10 min", read: false },
-    { id: 2, text: "Bienvenue sur le Dashboard FERNO !", time: "1h", read: false },
-    { id: 3, text: "Projet 'Robotique Agricole' mis à jour", time: "2h", read: true },
-  ]);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  // Filter only unread messages
+  const unreadMessages = messages.filter(m => !m.read);
+  const unreadCount = unreadMessages.length;
 
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
+  const markAllAsRead = async () => {
+    try {
+      const updates = unreadMessages.map(m =>
+        fetch(`/api/admin/messages/${m.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ read: true }),
+          credentials: 'include'
+        })
+      );
+      await Promise.all(updates);
+      setMessages(messages.map(m => ({ ...m, read: true })));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const markAsRead = async (id: string) => {
+    try {
+      const res = await fetch(`/api/admin/messages/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ read: true }),
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setMessages(messages.map(m => m.id === id ? { ...m, read: true } : m));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const deleteMessage = async (id: string) => {
+    if (!confirm("Voulez-vous vraiment supprimer ce message ?")) return;
+    try {
+      const res = await fetch(`/api/admin/messages/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setMessages(messages.filter(m => m.id !== id));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/content");
+      const res = await fetch("/api/admin/content", { credentials: "include" });
       if (!res.ok) throw new Error("Fetch failed");
       const data = await res.json();
       setProjects(data.projects || []);
       setPosts(data.posts || []);
       setEvents(data.events || []);
+      setMessages(data.messages || []);
       setSettings(data.settings || {
         siteName: "FERNOTECH",
         contactEmail: "",
@@ -115,11 +179,35 @@ export default function AdminPage() {
     }
   };
 
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const res = await fetch("/api/admin/session", { credentials: "include" });
+        const data = await res.json();
+        setIsAuthenticated(Boolean(data.authenticated));
+      } catch (error) {
+        console.error("Session check failed:", error);
+        setIsAuthenticated(false);
+      } finally {
+        setCheckingSession(false);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchData();
+    }
+  }, [isAuthenticated]);
+
   const saveContent = async (newProjects = projects, newPosts = posts, newEvents = events, newSettings = settings) => {
     try {
-      await fetch("/api/admin/content", {
+      const res = await fetch("/api/admin/content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ 
           projects: newProjects, 
           posts: newPosts, 
@@ -127,6 +215,11 @@ export default function AdminPage() {
           settings: newSettings 
         }),
       });
+
+      if (!res.ok) {
+        throw new Error("Save failed");
+      }
+
       fetchData();
     } catch (error) {
       console.error(error);
@@ -193,6 +286,17 @@ export default function AdminPage() {
     { label: "Nouveaux Contacts", value: "8", icon: MessageSquare, color: "text-brand-green" },
     { label: "Articles Blog", value: posts.length.toString(), icon: FileText, color: "text-white" },
   ];
+
+  if (checkingSession) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-12 h-12 text-brand-blue animate-spin" />
+          <p className="text-white/40 font-bold tracking-widest text-xs uppercase">Vérification de la session admin...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -341,12 +445,16 @@ export default function AdminPage() {
                       </button>
                     </div>
                     <div className="max-h-64 overflow-y-auto divide-y divide-white/5">
-                      {notifications.map(notif => (
-                        <div key={notif.id} className={cn("p-4 hover:bg-white/5 transition-colors cursor-pointer", !notif.read && "bg-brand-blue/5")}>
-                          <p className={cn("text-xs mb-1", notif.read ? "text-white/60" : "text-white font-bold")}>{notif.text}</p>
-                          <p className="text-[9px] text-white/20">{notif.time}</p>
-                        </div>
-                      ))}
+                      {unreadMessages.length === 0 ? (
+                        <div className="p-4 text-center text-white/40 text-xs">Aucune nouvelle notification</div>
+                      ) : (
+                        unreadMessages.slice(0, 5).map(msg => (
+                          <div key={msg.id} onClick={() => { setActiveTab("messages"); setShowNotifications(false); }} className="p-4 hover:bg-white/5 transition-colors cursor-pointer bg-brand-blue/5">
+                            <p className="text-xs mb-1 text-white font-bold">Nouveau message de {msg.name}</p>
+                            <p className="text-[9px] text-white/20">{new Date(msg.createdAt).toLocaleDateString()}</p>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </motion.div>
                 )}
@@ -459,24 +567,24 @@ export default function AdminPage() {
               <div className="glass rounded-3xl p-8 border-white/5">
                 <h3 className="font-bold text-xl mb-8">Messages Récents</h3>
                 <div className="space-y-6">
-                  {[
-                    { user: "Jean B.", msg: "Besoin d'un devis pour...", time: "10 min" },
-                    { user: "Marie L.", msg: "Félicitations pour le projet...", time: "45 min" },
-                    { user: "Kevin S.", msg: "Est-ce que vous livrez à...", time: "2h" },
-                  ].map((msg, i) => (
-                    <div key={i} className="flex gap-4 group cursor-pointer">
-                      <div className="w-8 h-8 rounded-full bg-brand-blue/20 flex flex-shrink-0 items-center justify-center text-[10px] font-bold text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all">
-                        {msg.user[0]}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="font-bold text-xs group-hover:text-brand-blue transition-colors">{msg.user}</p>
-                          <p className="text-[9px] text-white/20">{msg.time}</p>
+                  {messages.length === 0 ? (
+                    <p className="text-sm text-white/40 text-center py-4">Aucun message reçu.</p>
+                  ) : (
+                    messages.slice(0, 3).map((msg, i) => (
+                      <div key={msg.id} className="flex gap-4 group cursor-pointer" onClick={() => setActiveTab("messages")}>
+                        <div className="w-8 h-8 rounded-full bg-brand-blue/20 flex flex-shrink-0 items-center justify-center text-[10px] font-bold text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all">
+                          {msg.name ? msg.name[0].toUpperCase() : "?"}
                         </div>
-                        <p className="text-[10px] text-white/40 line-clamp-1">{msg.msg}</p>
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center mb-1">
+                            <p className={cn("font-bold text-xs group-hover:text-brand-blue transition-colors", !msg.read && "text-brand-yellow")}>{msg.name}</p>
+                            <p className="text-[9px] text-white/20">{new Date(msg.createdAt).toLocaleDateString()}</p>
+                          </div>
+                          <p className="text-[10px] text-white/40 line-clamp-1">{msg.subject}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                   <button className="w-full py-3 bg-white/5 hover:bg-white/10 text-white/60 rounded-xl text-xs font-bold transition-all mt-4" onClick={() => setActiveTab("messages")}>
                     Voir tous les messages
                   </button>
@@ -1091,30 +1199,45 @@ export default function AdminPage() {
             <div className="p-8 border-b border-white/5 flex justify-between items-center">
               <h2 className="text-2xl font-bold">Centre de Messages</h2>
               <span className="px-3 py-1 bg-brand-blue/20 text-brand-blue text-[10px] font-black rounded-full uppercase tracking-widest">
-                8 Nouveaux
+                {unreadCount} Nouveaux
               </span>
             </div>
             <div className="divide-y divide-white/5">
-              {[
-                { user: "Jean B.", email: "jean@example.com", msg: "Bonjour, je souhaiterais avoir un devis pour un bras robotisé...", date: "Aujourd'hui, 14:30" },
-                { user: "Marie L.", email: "marie.l@tech.cf", msg: "Votre projet de recyclage est impressionnant. Collaborons !", date: "Hier, 09:15" },
-                { user: "Kevin S.", email: "kevin.s@gmail.com", msg: "Est-ce que vous proposez des formations en robotique pour enfants ?", date: "12 Mai, 18:45" },
-                { user: "Oumar T.", email: "oumar@gouv.cf", msg: "Invitation à l'événement Innovation Bangui 2024.", date: "10 Mai, 11:00" },
-              ].map((msg, i) => (
-                <div key={i} className="p-6 hover:bg-white/[0.02] transition-colors group cursor-pointer flex gap-6">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-blue/10 flex items-center justify-center text-brand-blue font-bold text-lg">
-                    {msg.user[0]}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between mb-1">
-                      <h4 className="font-bold text-sm group-hover:text-brand-blue transition-colors">{msg.user}</h4>
-                      <span className="text-[10px] text-white/20 font-medium">{msg.date}</span>
-                    </div>
-                    <p className="text-xs text-white/40 mb-2">{msg.email}</p>
-                    <p className="text-sm text-white/60 line-clamp-1">{msg.msg}</p>
-                  </div>
+              {messages.length === 0 ? (
+                <div className="p-12 text-center text-white/40">
+                  <Inbox className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                  <p className="font-bold uppercase tracking-widest text-xs">La boîte de réception est vide</p>
                 </div>
-              ))}
+              ) : (
+                messages.map((msg) => (
+                  <div key={msg.id} className={cn("p-6 hover:bg-white/[0.02] transition-colors group flex gap-6", !msg.read && "bg-brand-blue/5")}>
+                    <div className="w-12 h-12 rounded-2xl bg-brand-blue/10 flex flex-shrink-0 items-center justify-center text-brand-blue font-bold text-lg">
+                      {msg.name ? msg.name[0].toUpperCase() : "?"}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between mb-1">
+                        <h4 className={cn("font-bold text-sm", !msg.read ? "text-brand-yellow" : "text-white/80")}>{msg.name}</h4>
+                        <span className="text-[10px] text-white/20 font-medium">{new Date(msg.createdAt).toLocaleString()}</span>
+                      </div>
+                      <p className="text-xs text-white/40 mb-2">{msg.email}</p>
+                      <div className="bg-white/5 p-4 rounded-xl mt-2 mb-4 text-sm text-white/70">
+                        <p className="font-bold mb-2 text-white/90">Sujet: {msg.subject}</p>
+                        <p className="whitespace-pre-wrap">{msg.message}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        {!msg.read && (
+                          <button onClick={() => markAsRead(msg.id)} className="px-3 py-1.5 bg-brand-blue text-white rounded-lg text-[10px] font-bold shadow-lg hover:scale-105 transition-all">
+                            Marquer comme lu
+                          </button>
+                        )}
+                        <button onClick={() => deleteMessage(msg.id)} className="px-3 py-1.5 bg-brand-red text-white rounded-lg text-[10px] font-bold shadow-lg hover:scale-105 transition-all">
+                          Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}

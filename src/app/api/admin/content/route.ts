@@ -1,26 +1,37 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { verifyAdminToken } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
 
 export async function GET() {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("fernotech_admin")?.value;
+    if (!token || !verifyAdminToken(token)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const client = await clientPromise;
     const db = client.db();
 
     const projects = await db.collection("projects").find({}).toArray();
     const posts = await db.collection("posts").find({}).toArray();
     const events = await db.collection("events").find({}).toArray();
+    const messages = await db.collection("messages").find({}).sort({ createdAt: -1 }).toArray();
     const settingsDoc = await db.collection<any>("settings").findOne({ _id: "global" });
 
     // Sanitize MongoDB _id for client
     const cleanProjects = projects.map(({ _id, ...rest }) => rest);
     const cleanPosts = posts.map(({ _id, ...rest }) => rest);
     const cleanEvents = events.map(({ _id, ...rest }) => rest);
+    const cleanMessages = messages.map(({ _id, ...rest }) => ({ id: _id.toString(), ...rest }));
     const cleanSettings = settingsDoc ? (() => { const { _id, ...rest } = settingsDoc; return rest; })() : null;
 
     return NextResponse.json({
       projects: cleanProjects,
       posts: cleanPosts,
       events: cleanEvents,
+      messages: cleanMessages,
       settings: cleanSettings || {
         siteName: "FERNOTECH",
         contactEmail: "contact@fernando.tech",
@@ -36,6 +47,12 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("fernotech_admin")?.value;
+    if (!token || !verifyAdminToken(token)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const newData = await req.json();
     const client = await clientPromise;
     const db = client.db();
